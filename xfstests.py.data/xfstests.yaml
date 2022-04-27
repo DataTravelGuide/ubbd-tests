@@ -1,7 +1,8 @@
-xfstests_dir: '/data/xfstests'
-ubbd_dir: "/data/ubbd"
-scratch_mnt: '/mnt/scratch'
-test_mnt: '/mnt/test'
+xfstests_dir: 'XFSTESTS_DIR_DEFAULT'
+ubbd_dir: "UBBD_DIR_DEFAULT"
+ubbd_tests_dir: "UBBD_TESTS_DIR_DEFAULT"
+scratch_mnt: 'SCRATCH_MNT_DEFAULT'
+test_mnt: 'TEST_MNT_DEFAULT'
 test_set: '-g auto'
 ubbdd_timeout: !mux
         no_timeout:

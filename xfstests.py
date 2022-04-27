@@ -17,7 +17,7 @@ class Xfstests(Test):
     proc = None
 
     def start_ubbdd_killer(self):
-        cmd = str("sh tests/function_test/utils/start_ubbdd_killer.sh %s" % (self.ubbdd_timeout))
+        cmd = str("sh %s/utils/start_ubbdd_killer.sh %s" % (self.ubbd_tests_dir, self.ubbdd_timeout))
         self.proc = process.get_sub_process_klass(cmd)(cmd)
         pid = self.proc.start()
         self.log.info("ubbdd killer started: pid: %s, %s", pid, self.proc)
@@ -31,7 +31,7 @@ class Xfstests(Test):
 
     def do_config(self, dev):
         os.chdir(self.ubbd_dir)
-        cmd = str("./ubbdadm/ubbdadm --command config --ubbdid %s --data-pages-reserve 0" % (dev))
+        cmd = str("%s/ubbdadm/ubbdadm --command config --ubbdid %s --data-pages-reserve 0" % (self.ubbd_dir, dev))
         result = process.run(cmd, ignore_status=True)
         self.log.info("config result: %s" % (result))
         return (result.exit_status == 0)
@@ -40,6 +40,7 @@ class Xfstests(Test):
     def setUp(self):
         self.xfstests_dir = self.params.get('xfstests_dir')
         self.ubbd_dir = self.params.get('ubbd_dir')
+        self.ubbd_tests_dir = self.params.get('ubbd_tests_dir')
         self.scratch_mnt = self.params.get(
             'scratch_mnt', default='/mnt/scratch')
         self.test_mnt = self.params.get('test_mnt', default='/mnt/test')

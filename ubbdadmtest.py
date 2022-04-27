@@ -21,6 +21,7 @@ class Ubbdadmtest(Test):
         self.fio_iops_limit = self.params.get("iops_limit")
         self.fio_direct = self.params.get("fio_direct")
         self.ubbd_dir = self.params.get("UBBD_DIR")
+        self.ubbd_tests_dir = self.params.get("UBBD_TESTS_DIR")
 
         os.chdir(self.ubbd_dir)
         process.run("dmesg -C ", sudo=True)
@@ -28,7 +29,7 @@ class Ubbdadmtest(Test):
             self.start_ubbdd_killer()
 
     def start_ubbdd_killer(self):
-        cmd = str("sh tests/function_test/utils/start_ubbdd_killer.sh %s" % (self.ubbdd_timeout))
+        cmd = str("sh %s/utils/start_ubbdd_killer.sh %s" % (self.ubbd_tests_dir, self.ubbdd_timeout))
         self.proc = process.get_sub_process_klass(cmd)(cmd)
         pid = self.proc.start()
         self.log.info("ubbdd killer started: pid: %s, %s", pid, self.proc)
@@ -61,7 +62,7 @@ class Ubbdadmtest(Test):
         return str(ubbd_dev.replace("/dev/ubbd", "")).strip()
 
     def do_map(self):
-        result = process.run("./ubbdadm/ubbdadm --command map --type file --filepath %s --devsize %s" % (self.ubbd_backend_file, self.ubbd_backend_file_size), ignore_status=True)
+        result = process.run("%s/ubbdadm/ubbdadm --command map --type file --filepath %s --devsize %s" % (self.ubbd_dir, self.ubbd_backend_file, self.ubbd_backend_file_size), ignore_status=True, shell=True)
         if result.exit_status:
             self.log.error("map error: %s" % (result))
             return False
@@ -70,39 +71,58 @@ class Ubbdadmtest(Test):
         ubbd_dev = result.stdout_text.strip()
         self.set_dev_timeout(ubbd_dev)
         self.start_fio(ubbd_dev)
+        if (len(ubbd_dev) == 0):
+            self.log.error("stdout of map is none")
         self.ubbd_dev_list.append(ubbd_dev)
+        self.log.info(self.ubbd_dev_list)
         return True
 
     def do_unmap(self, dev, force):
-        cmd = str("./ubbdadm/ubbdadm --command unmap --ubbdid %s" % self.get_dev_id(dev))
+        cmd = str("%s/ubbdadm/ubbdadm --command unmap --ubbdid %s" % (self.ubbd_dir, self.get_dev_id(dev)))
         if force:
             cmd = str("%s --force" % cmd)
         result = process.run(cmd, ignore_status=True)
         self.log.info("unmap result: %s" % (result))
         return (result.exit_status == 0)
 
+    def start_dev(self):
+        while (True):
+            if (self.do_map()):
+                return
+            time.sleep(1)
+
     def stop_dev(self, dev):
         while (os.path.exists(dev)):
             self.do_unmap(dev, True)
+            time.sleep(1)
 
         self.ubbd_dev_list.remove(dev)
+        self.log.info(self.ubbd_dev_list)
 
     def stop_devs(self):
         self.log.info(self.ubbd_dev_list)
         while (len(self.ubbd_dev_list) != 0):
             self.stop_dev(self.ubbd_dev_list[0])
 
+
     def do_config(self, dev):
-        cmd = str("./ubbdadm/ubbdadm --command config --ubbdid %s --data-pages-reserve %s" % (self.get_dev_id(dev), self.ubbd_page_reserve))
+        cmd = str("%s/ubbdadm/ubbdadm --command config --ubbdid %s --data-pages-reserve %s" % (self.ubbd_dir, self.get_dev_id(dev), self.ubbd_page_reserve))
         result = process.run(cmd, ignore_status=True)
         self.log.info("config result: %s" % (result))
         return (result.exit_status == 0)
+
+    def config_dev(self, dev):
+        while (True):
+            if (self.do_config(dev)):
+                return
+            time.sleep(1)
+
 
     def do_ubbd_action(self):
         action = random.randint(1, 2)
         if action == 1:
             self.log.info("map")
-            self.do_map()
+            self.start_dev()
         elif action == 2:
             self.log.info("unmap")
             if (len(self.ubbd_dev_list) > 0):
@@ -110,7 +130,7 @@ class Ubbdadmtest(Test):
         elif action == 3:
             self.log.info("config")
             if (len(self.ubbd_dev_list) > 0):
-                self.do_config(self.ubbd_dev_list[0])
+                self.config_dev(self.ubbd_dev_list[0])
 
     def test(self):
         for i in range(0, self.ubbdadm_action_num):

@@ -1,44 +1,44 @@
+#!/bin/sh
 
 date_str=`date "+%Y_%m_%d_%H_%M_%S"`
+ubbd_test_dir=`pwd`
 
-mount -t nfs 192.168.1.120:/nfs /nfs_images
-cd /data/ubbd/
-modprobe uio
-make
-sleep 1
-insmod kmods/ubbd.ko
-sleep 1
-modprobe brd rd_nr=1 rd_size=$((21*1024*1024)) max_part=16
+cat ./local_conf
+. ./local_conf
+. ./utils/utils.sh
 
-parted /dev/ram0 mklabel gpt
-sgdisk  /dev/ram0 -n 1:1M:+1000M
-sgdisk  /dev/ram0 -n 2:1001M:+10G
-sgdisk  /dev/ram0 -n 3:11241M:+10G
+if [ -z "$UBBD_DIR" ]; then
+	echo "UBBD_DIR must be set in local_conf: UBBD_DIR=/xxx/xxxx"
+	exit 1
+fi
 
-partprobe /dev/ram0
-ps -ef|grep start_ubbdd.sh|gawk '{print "kill "$2}'|bash
-sleep 1
-sh -x tests/function_test/utils/start_ubbdd.sh 0 0 30 &
-sleep 2
-./ubbdadm/ubbdadm --command map --type file --filepath /dev/ram0p2 --devsize $((10*1024*1024*1024))
-sleep 1
-./ubbdadm/ubbdadm --command map --type file --filepath /dev/ram0p3 --devsize $((10*1024*1024*1024))
-sleep 1
-mkfs.xfs -f /dev/ubbd0
+if [ ! -z "$UBBD_TESTS_SETUP_CMD" ]; then
+	$UBBD_TESTS_SETUP_CMD
+fi
 
-cd tests/function_test/
+# build and insmod ubbd
+setup
+
+# start tests
+cd $ubbd_test_dir
+
+# replace default options with the real options
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_TESTS_DIR_DEFAULT ${ubbd_test_dir}
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
+
+replace_option xfstests.py.data/xfstests.yaml XFSTESTS_DIR_DEFAULT ${UBBD_TESTS_XFSTESTS_DIR}
+replace_option xfstests.py.data/xfstests.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
+replace_option xfstests.py.data/xfstests.yaml UBBD_TESTS_DIR_DEFAULT ${ubbd_test_dir}
+replace_option xfstests.py.data/xfstests.yaml SCRATCH_MNT_DEFAULT ${XFSTESTS_SCRATCH_MNT}
+replace_option xfstests.py.data/xfstests.yaml TEST_MNT_DEFAULT ${XFSTESTS_TEST_MNT}
+
 ./all_test.py
 
-scp -r /root/avocado/job-results/latest/ 192.168.1.120://nfs/html/test_result/avocado_`hostname`_${date_str}
-umount /mnt
-umount /media
+if [ ! -z "$UBBD_TESTS_POST_TEST_CMD" ]; then
+	$UBBD_TESTS_POST_TEST_CMD
+fi
 
-cd /data/ubbd/
-./ubbdadm/ubbdadm --command unmap --ubbdid 0
-./ubbdadm/ubbdadm --command unmap --ubbdid 1
-sleep 3
-ps -ef|grep start_ubbdd.sh|gawk '{print "kill "$2}'|bash
-pkill ubbdd
-
-rmmod ubbd
-rmmod brd
+# cleanup 
+cleanup
