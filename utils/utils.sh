@@ -33,6 +33,9 @@ setup ()
 	./ubbdadm/ubbdadm --command map --type file --filepath /dev/ram0p3 --devsize $((10*1024*1024*1024))
 	sleep 1
 	./ubbdadm/ubbdadm --command map --type null --devsize $((10*1024*1024*1024))
+	sleep 1
+	./ubbdadm/ubbdadm --command map --type file --filepath /dev/ram0p2 --devsize $((10*1024*1024*1024)) --num-queues 1
+	sleep 1
 	mkfs.xfs -f /dev/ubbd0
 }
 
