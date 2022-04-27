@@ -1,2 +1,16 @@
-pip install avocado-framework
-pip install avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
+Run ubbd-tests
+
+1. pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
+
+2. Edit local_conf and an example as below:
+
+UBBD_DIR="/root/ubbd"
+UBBD_TESTS_SETUP_CMD=""
+UBBD_TESTS_POST_TEST_CMD=""
+UBBD_TESTS_XFSTESTS_DIR="/data/xfstests"
+
+XFSTESTS_SCRATCH_MNT="/mnt/scratch"
+XFSTESTS_TEST_MNT="/mnt/test"
+
+
+3. sh test_all.sh
