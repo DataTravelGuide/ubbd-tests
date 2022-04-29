@@ -1,11 +1,12 @@
 import random
 import os
 import time
+import json
 
 from avocado import Test
 from avocado.utils import process, genio
 
-class Ubbdadmtest(Test):
+class Fiotest(Test):
 
 
     def setUp(self):
@@ -17,15 +18,38 @@ class Ubbdadmtest(Test):
         self.iodepth = self.params.get("iodepth")
         self.numjobs = self.params.get("numjobs")
         self.output_file = self.params.get("output_file")
+        self.rwmixread = self.params.get("rwmixread")
+        self.result_type = self.params.get("result_type")
 
         self.log_file = os.path.join(self.logdir, 'fiolog.out')
 
-    def test(self):
-        cmd = str("fio --name=test --rw=%s --bs=%s --runtime=%s --ioengine=%s --iodepth=%s --numjobs=%s --filename=%s --direct=1 --group_reporting --time_based=1 --output=%s" % (self.rw_type, self.block_size, self.runtime, self.ioengine, self.iodepth, self.numjobs, self.dev_path, self.log_file))
-        process.run(cmd)
+    def get_output(self, json, t):
+        iops = str(int(json.get("jobs")[0].get(t).get("iops")))
+        bw = str(int(json.get("jobs")[0].get(t).get("bw_bytes") / 1024 / 1024))
+        lat = str(int(json.get("jobs")[0].get(t).get("lat_ns").get('mean') / 1000))
+        return str("%s, %s, %s" % (iops, bw, lat))
 
+    def get_output_from_json(self, json):
+        result = []
+        for t in self.result_type.split():
+            result.append(str(self.get_output(json, t)))
+            self.log.info(result)
+        return result
+
+    def test(self):
+        cmd = str("fio --name=test --rw=%s --bs=%s --runtime=%s --ioengine=%s --iodepth=%s --numjobs=%s --filename=%s --direct=1 --group_reporting --time_based=1 --output-format=json" % (self.rw_type, self.block_size, self.runtime, self.ioengine, self.iodepth, self.numjobs, self.dev_path))
+        if (self.rwmixread):
+            cmd = str("%s --rwmixread %s" % (cmd, self.rwmixread))
+
+        result = process.run(cmd)
+        result_json = json.loads(result.stdout_text.strip())
+        output_list = self.get_output_from_json(result_json)
+        
+        output_file = open(self.output_file, 'a')
+        for string in output_list:
+            output_file.write(str("%s, %s, %s, %s, %s\n" % (self.rw_type, self.block_size, self.iodepth, self.numjobs, string)))
+
+        output_file.close()
 
     def tearDown(self):
-        collect_cmd = str("./utils/fio_result_collect.sh %s" % (self.log_file))
-        result = process.run(collect_cmd)
-        self.whiteboard = result.stdout_text.strip()
+        self.log.info("finished")
