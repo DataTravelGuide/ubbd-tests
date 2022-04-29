@@ -1,0 +1,70 @@
+dev_path: "UBBD_DEV_PATH"
+runtime: "10"
+ioengine: "libaio"
+output_file: "OUTPUT_FILE"
+rw: !mux
+        read:
+                rw_type: "read"
+        write:
+                rw_type: "write"
+        randread:
+                rw_type: "randread"
+        randwrite:
+                rw_type: "randwrite"
+        rw:
+                rw_type: "rw"
+        randrw:
+                rw_type: "randrw"
+
+bs: !mux
+        1K:
+                block_size: "1K"
+        4K:
+                block_size: "4K"
+        8K:
+                block_size: "8K"
+        16K:
+                block_size: "16K"
+        32K:
+                block_size: "32K"
+        64K:
+                block_size: "64K"
+        128K:
+                block_size: "128K"
+        256K:
+                block_size: "256K"
+        512K:
+                block_size: "512K"
+        1M:
+                block_size: "1M"
+
+iodepth: !mux
+        1iodepth:
+                iodepth: "1"
+        2iodepth:
+                iodepth: "2"
+        4iodepth:
+                iodepth: "4"
+        8iodepth:
+                iodepth: "8"
+        16iodepth:
+                iodepth: "16"
+        32iodepth:
+                iodepth: "32"
+        64iodepth:
+                iodepth: "64"
+        128iodepth:
+                iodepth: "128"
+numjobs: !mux
+        1numjobs:
+                numjobs: "1"
+        2numjobs:
+                numjobs: "2"
+        4numjobs:
+                numjobs: "4"
+        8numjobs:
+                numjobs: "8"
+        16numjobs:
+                numjobs: "16"
+        32numjobs:
+                numjobs: "32"
