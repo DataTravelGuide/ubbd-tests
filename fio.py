@@ -51,7 +51,10 @@ class Fiotest(Test):
             output_file.write(output_str)
 
         output_file.close()
-        self.whiteboard = str(output_list)
+
 
     def tearDown(self):
+        cmd = str("cat %s" % self.output_file)
+        result = process.run(cmd)
+        self.whiteboard = result.stdout_text
         self.log.info("finished")
