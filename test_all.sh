@@ -34,6 +34,11 @@ replace_option xfstests.py.data/xfstests.yaml UBBD_TESTS_DIR_DEFAULT ${ubbd_test
 replace_option xfstests.py.data/xfstests.yaml SCRATCH_MNT_DEFAULT ${XFSTESTS_SCRATCH_MNT}
 replace_option xfstests.py.data/xfstests.yaml TEST_MNT_DEFAULT ${XFSTESTS_TEST_MNT}
 
+
+echo "RW TYPE, BS, IODEPTH, NUMJOBS, IOPS, BW(MiB/s), LATENCY(us)" > ${FIOTEST_OUTFILE}
+replace_option fio.py.data/fio.yaml UBBD_DEV_PATH /dev/ubbd0
+replace_option fio.py.data/fio.yaml OUTPUT_FILE ${FIOTEST_OUTFILE}
+
 ./all_test.py
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMD" ]; then

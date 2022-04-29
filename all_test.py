@@ -15,6 +15,12 @@ xfstests_config = {'resolver.references': ['xfstests.py:Xfstests.test'],
           'nrunner.max_parallel_tasks': 1,
           'run.dry_run.enabled': False}
 
+fio_config = {'resolver.references': ['fio.py:Fiotest.test'],
+          'yaml_to_mux.files': ['fio.py.data/fio.yaml'],
+          'nrunner.max_parallel_tasks': 1,
+          'run.dry_run.enabled': False}
+
 with Job(test_suites=[TestSuite.from_config(ubbdadmtest_config, name='ubbdadmtest'),
-                      TestSuite.from_config(xfstests_config, name='xfstests')]) as j:
+                      TestSuite.from_config(xfstests_config, name='xfstests'),
+                      TestSuite.from_config(fio_config, name='fio')]) as j:
     sys.exit(j.run())
