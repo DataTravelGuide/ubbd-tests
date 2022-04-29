@@ -47,9 +47,11 @@ class Fiotest(Test):
         
         output_file = open(self.output_file, 'a')
         for string in output_list:
-            output_file.write(str("%s, %s, %s, %s, %s\n" % (self.rw_type, self.block_size, self.iodepth, self.numjobs, string)))
+            output_str = str("%s, %s, %s, %s, %s\n" % (self.rw_type, self.block_size, self.iodepth, self.numjobs, string))
+            output_file.write(output_str)
 
         output_file.close()
+        self.whiteboard = str(output_list)
 
     def tearDown(self):
         self.log.info("finished")
