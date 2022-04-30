@@ -17,7 +17,7 @@ class Fiotest(Test):
         self.block_size = self.params.get("block_size")
         self.iodepth = self.params.get("iodepth")
         self.numjobs = self.params.get("numjobs")
-        self.output_file = self.params.get("output_file")
+        self.output_file = str("%s/%s" % (os.path.dirname(self.logdir), self.params.get("output_file")))
         self.rwmixread = self.params.get("rwmixread")
         self.result_type = self.params.get("result_type")
 
@@ -45,7 +45,14 @@ class Fiotest(Test):
         result_json = json.loads(result.stdout_text.strip())
         output_list = self.get_output_from_json(result_json)
         
+        add_header = False
+        if not os.path.exists(self.output_file):
+            add_header = True
+            
         output_file = open(self.output_file, 'a')
+        if add_header:
+            output_file.write("RW TYPE, BS, IODEPTH, NUMJOBS, IOPS, BW(MiB/s), LATENCY(us)\n")
+
         for string in output_list:
             output_str = str("%s, %s, %s, %s, %s\n" % (self.rw_type, self.block_size, self.iodepth, self.numjobs, string))
             output_file.write(output_str)
@@ -54,7 +61,4 @@ class Fiotest(Test):
 
 
     def tearDown(self):
-        cmd = str("cat %s" % self.output_file)
-        result = process.run(cmd)
-        self.whiteboard = result.stdout_text
         self.log.info("finished")
