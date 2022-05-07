@@ -20,7 +20,13 @@ fio_config = {'resolver.references': ['fio.py:Fiotest.test'],
           'nrunner.max_parallel_tasks': 1,
           'run.dry_run.enabled': False}
 
-with Job(test_suites=[TestSuite.from_config(ubbdadmtest_config, name='ubbdadmtest'),
+upgradeonline_config = {'resolver.references': ['upgradeonline.py:Upgradeonlinetest.test'],
+          'yaml_to_mux.files': ['upgradeonline.py.data/upgradeonline.yaml'],
+          'nrunner.max_parallel_tasks': 1,
+          'run.dry_run.enabled': False}
+
+with Job(test_suites=[TestSuite.from_config(upgradeonline_config, name='upgradeonline'),
+                      TestSuite.from_config(ubbdadmtest_config, name='ubbdadmtest'),
                       TestSuite.from_config(xfstests_config, name='xfstests'),
                       TestSuite.from_config(fio_config, name='fio')]) as j:
     sys.exit(j.run())

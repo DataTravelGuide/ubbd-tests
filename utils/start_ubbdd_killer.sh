@@ -2,5 +2,5 @@ sleep_time=$1
 
 while true; do
 	pkill ubbdd
-	sleep ${sleep_time}
+	sleep $((RANDOM % ${sleep_time}))
 done

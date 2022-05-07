@@ -38,6 +38,9 @@ replace_option xfstests.py.data/xfstests.yaml TEST_MNT_DEFAULT ${XFSTESTS_TEST_M
 replace_option fio.py.data/fio.yaml UBBD_DEV_PATH /dev/ubbd2
 replace_option fio.py.data/fio.yaml OUTPUT_FILE ${FIOTEST_OUTFILE}
 
+replace_option upgradeonline.py.data/upgradeonline.yaml UBBD_TESTS_DIR_DEFAULT ${ubbd_test_dir}
+replace_option upgradeonline.py.data/upgradeonline.yaml UBBD_DEV_DEFAULT /dev/ubbd0
+
 ./all_test.py
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
