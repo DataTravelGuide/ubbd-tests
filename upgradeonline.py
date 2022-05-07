@@ -20,7 +20,7 @@ class Upgradeonlinetest(Test):
             self.start_ubbdd_killer()
 
     def start_ubbdd_killer(self):
-        cmd = str("sh %s/utils/start_ubbdd_killer.sh %s" % (self.ubbd_tests_dir, self.ubbdd_timeout))
+        cmd = str("bash %s/utils/start_ubbdd_killer.sh %s" % (self.ubbd_tests_dir, self.ubbdd_timeout))
         self.proc = process.get_sub_process_klass(cmd)(cmd)
         pid = self.proc.start()
         self.log.info("ubbdd killer started: pid: %s, %s", pid, self.proc)
