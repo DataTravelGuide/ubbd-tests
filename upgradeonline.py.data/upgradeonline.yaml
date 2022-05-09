@@ -1,6 +1,8 @@
 UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
 ubbd_dev: "UBBD_DEV_DEFAULT"
 ubbd_daemon_timeout: !mux
+        1sec:
+                ubbdd_timeout: 1
         tensec:
                 ubbdd_timeout: 10
         30sec:
