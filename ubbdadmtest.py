@@ -63,7 +63,7 @@ class Ubbdadmtest(Test):
 
     def list_and_check(self, ubbd_dev):
         cmd = str("%s/ubbdadm/ubbdadm --command list" % (self.ubbd_dir))
-        result = process.run(cmd)
+        result = process.run(cmd, ignore_status=True)
         if result.exit_status:
             return False
 
