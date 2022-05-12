@@ -34,6 +34,7 @@ setup ()
 
 kill_ubbdd ()
 {
+	ps -ef|grep ubbdd_killer|gawk '{print "kill "$2}'|bash
 	ps -ef|grep start_ubbdd.sh|gawk '{print "kill "$2}'|bash
 	ps -ef|grep memleak|grep ubbdd|gawk '{print "kill "$2}'|bash
 	pkill ubbdd
