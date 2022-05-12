@@ -16,13 +16,39 @@ if [ ! -z "$UBBD_TESTS_SETUP_CMD" ]; then
 	${UBBD_TESTS_SETUP_CMD}
 fi
 
+# install requirements
+apt install -y bpfcc-tools
+pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
+
 # build and insmod ubbd
 setup
 
-# start tests
-cd $ubbd_test_dir
+# 1. prepare memleak first
+prepare_ubbdd 1
+
+cd ${ubbd_test_dir}
+replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
+replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_TESTS_DIR_DEFAULT ${ubbd_test_dir}
+replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
+replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
+
+avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml
+
+# sleep for memleak to output
+sleep 30
+kill_ubbdd
+
+# restart ubbdd to check memleak in reopen_devs
+prepare_ubbdd 1
+unmap_ubbd_devs
+sleep 30
+kill_ubbdd
+
+# 2. start other tests without memleak
+prepare_ubbd_devs
 
 # replace default options with the real options
+cd ${ubbd_test_dir}
 replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
 replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_TESTS_DIR_DEFAULT ${ubbd_test_dir}
 replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"

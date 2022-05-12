@@ -1,0 +1,42 @@
+UBBD_DIR: "UBBD_DIR_DEFAULT"
+UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
+VALGRIND: 0
+ubbd_backend_file: "UBBD_B_FILE_DEFAULT"
+ubbd_backend_file_size: UBBD_B_FILE_SIZE_DEFAULT
+ubbdadm_action_num: 10
+ubbd_daemon_timeout: !mux
+        no_timeout:
+                ubbdd_timeout: 0
+
+ubbd_dev_timeout: !mux
+        no_timeout:
+                ubbd_dev_timeout: 0
+        1msec:
+                ubbd_dev_timeout: 1
+        10msec:
+                ubbd_dev_timeout: 10
+        1sec:
+                ubbd_dev_timeout: 1000
+
+ubbd_page_reserve: !mux
+        no_reserve:
+                ubbd_page_reserve: 0
+        70percent:
+                ubbd_page_reserve: 70
+
+fio_block_size: !mux
+        4K:
+                block_size: "4K"
+        1M:
+                block_size: "1M"
+
+fio_iops_limit: !mux
+        no_limit:
+                iops_limit: 0
+        ten:
+                iops_limit: 10
+fio_direct: !mux
+        buffer:
+                fio_direct: False
+        direct:
+                fio_direct: True

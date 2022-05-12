@@ -1,6 +1,9 @@
 Run ubbd-tests
 
-1. pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
+1. install packages:
+
+# pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
+# apt install bpfcc-tools
 
 2. Edit local_conf and an example as below:
 
@@ -12,5 +15,7 @@ UBBD_TESTS_XFSTESTS_DIR="/data/xfstests"
 XFSTESTS_SCRATCH_MNT="/mnt/scratch"
 XFSTESTS_TEST_MNT="/mnt/test"
 
+FIOTEST_OUTFILE="fio_output.csv"
 
-3. sh test_all.sh
+3. run test:
+# bash test_all.sh

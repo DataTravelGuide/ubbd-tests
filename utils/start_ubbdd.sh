@@ -1,12 +1,11 @@
-timeout=$1
-valgrind=$2
-downtime=$3
+memleak=$1
+downtime=$2
 
 while true; do
-	if [ $valgrind -eq 1 ]; then
-		valgrind --leak-check=full timeout ${timeout} ./ubbdd/ubbdd
+	if [ $memleak -eq 1 ]; then
+		memleak-bpfcc -c "./ubbdd/ubbdd" >> /var/log/memleak.log
 	else
-		timeout ${timeout} ./ubbdd/ubbdd
+		./ubbdd/ubbdd
 	fi
 	sleep ${downtime}
 done
