@@ -1,8 +1,8 @@
-xfstests_dir: 'XFSTESTS_DIR_DEFAULT'
-ubbd_dir: "UBBD_DIR_DEFAULT"
-ubbd_tests_dir: "UBBD_TESTS_DIR_DEFAULT"
-scratch_mnt: 'SCRATCH_MNT_DEFAULT'
-test_mnt: 'TEST_MNT_DEFAULT'
+xfstests_dir: '/data/xfstests'
+ubbd_dir: "/data/ubbd"
+ubbd_tests_dir: "/data/ubbd-tests"
+scratch_mnt: '/mnt/scratch'
+test_mnt: '/mnt/test'
 test_set: '-g auto'
 ubbdd_timeout: !mux
         no_timeout:
@@ -14,10 +14,6 @@ fs_type: !mux
                 fs: 'ext4'
                 # Exclude only if test_range not provided
                 exclude: 'null'
-        fs_f2fs:
-                fs: 'f2fs'
-                # Exclude only if test_range not provided
-                exclude: "null"
         fs_xfs:
                 fs: 'xfs'
                 # Exclude only if test_range not provided
