@@ -54,29 +54,52 @@ prepare_ubbdd ()
 	wait_for_ubbdd
 }
 
+map_dev ()
+{
+	type=$1
+	devsize=$2
+	opts=$3
+
+	while true; do
+		${UBBD_DIR}/ubbdadm/ubbdadm --command map --type $type --devsize $devsize $opts
+		if [ $? -eq 0 ]; then
+			break
+		fi
+		sleep 1
+	done
+}
+
+unmap_dev ()
+{
+	ubbdid=$1
+
+	while true; do
+		${UBBD_DIR}/ubbdadm/ubbdadm --command unmap --ubbdid $ubbdid
+		if [ $? -eq 0 ]; then
+			break
+		fi
+		sleep 1
+	done
+}
+
 prepare_ubbd_devs ()
 {
 	prepare_ubbdd 0
 
 	# map ubbd0 and ubbd1 for xfstests
 	cd $UBBD_DIR
-	./ubbdadm/ubbdadm --command map --type file --filepath /dev/ram0p2 --devsize $((10*1024*1024*1024))
-	sleep 1
-	./ubbdadm/ubbdadm --command map --type file --filepath /dev/ram0p3 --devsize $((10*1024*1024*1024))
-	sleep 1
-	./ubbdadm/ubbdadm --command map --type null --devsize $((10*1024*1024*1024))
-	sleep 1
-	./ubbdadm/ubbdadm --command map --type file --filepath /dev/ram0p2 --devsize $((10*1024*1024*1024)) --num-queues 1
-	sleep 1
+	map_dev file $((10*1024*1024*1024)) "--filepath /dev/ram0p2"
+	map_dev file $((10*1024*1024*1024)) "--filepath /dev/ram0p3"
+	map_dev null $((10*1024*1024*1024))
 	mkfs.xfs -f /dev/ubbd0
 }
 
 unmap_ubbd_devs ()
 {
 	cd $UBBD_DIR
-	for i in /dev/ubbd*; do
+	for i in `ls /dev/ubbd*`; do
 		id=$(echo "${i}" | sed "s/\/dev\/ubbd//g")
-		./ubbdadm/ubbdadm --command unmap --ubbdid $id --force 
+		unmap_dev $id
 	done
 }
 

@@ -16,3 +16,5 @@ fi
 
 # build and insmod ubbd
 setup
+
+prepare_ubbd_devs
