@@ -74,7 +74,7 @@ unmap_dev ()
 	ubbdid=$1
 
 	while true; do
-		${UBBD_DIR}/ubbdadm/ubbdadm --command unmap --ubbdid $ubbdid
+		${UBBD_DIR}/ubbdadm/ubbdadm --command unmap --force --ubbdid $ubbdid
 		if [ $? -eq 0 ]; then
 			break
 		fi
