@@ -8,6 +8,8 @@ Run ubbd-tests
 2. Edit local_conf and an example as below:
 
 UBBD_DIR="/root/ubbd"
+UBBD_TESTS_DIR="/root/ubbd-tests"
+
 UBBD_TESTS_SETUP_CMD=""
 UBBD_TESTS_POST_TEST_CMD=""
 UBBD_TESTS_XFSTESTS_DIR="/data/xfstests"

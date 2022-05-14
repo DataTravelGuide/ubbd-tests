@@ -47,8 +47,10 @@ prepare_ubbdd ()
 	cd $UBBD_DIR
 	# kill ubbdd and restart it background
 	kill_ubbdd
+	modprobe uio
+	insmod kmods/ubbd.ko
 
-	sh -x $ubbd_test_dir/utils/start_ubbdd.sh $memleak 1 &
+	sh -x $UBBD_TESTS_DIR/utils/start_ubbdd.sh $memleak 1 &
 	wait_for_ubbdd
 }
 
@@ -89,6 +91,10 @@ cleanup ()
 		echo "UBBD_DIR must be set in local_conf: UBBD_DIR=/xxx/xxxx"
 		exit 1
 	fi
+
+	kill_ubbdd
+	sleep 1
+	prepare_ubbdd 0
 
 	unmap_ubbd_devs
 

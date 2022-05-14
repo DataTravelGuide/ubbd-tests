@@ -1,7 +1,6 @@
 #!/bin/sh
 
 date_str=`date "+%Y_%m_%d_%H_%M_%S"`
-ubbd_test_dir=`pwd`
 
 . ./local_conf
 . ./utils/utils.sh
