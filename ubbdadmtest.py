@@ -61,7 +61,7 @@ class Ubbdadmtest(Test):
     def get_dev_id(self, ubbd_dev):
         return str(ubbd_dev.replace("/dev/ubbd", "")).strip()
 
-    def list_and_check(self, ubbd_dev):
+    def __list_and_check(self, ubbd_dev):
         cmd = str("%s/ubbdadm/ubbdadm --command list" % (self.ubbd_dir))
         result = process.run(cmd, ignore_status=True)
         if result.exit_status:
@@ -69,10 +69,16 @@ class Ubbdadmtest(Test):
 
         dev_list = result.stdout_text.strip().split()
         for dev in dev_list:
-            if dev == ubbd_dev:
+            if dev.strip() == ubbd_dev.strip():
                 return True
 
-        return self.fail("list and check dev %s failed." % ubbd_dev)
+        return False
+
+    def list_and_check(self, ubbd_dev):
+        while (True):
+            if (self.__list_and_check(ubbd_dev)):
+                return
+            time.sleep(1)
 
     def do_map(self):
         result = process.run("%s/ubbdadm/ubbdadm --command map --type file --filepath %s --devsize %s" % (self.ubbd_dir, self.ubbd_backend_file, self.ubbd_backend_file_size), ignore_status=True, shell=True)
