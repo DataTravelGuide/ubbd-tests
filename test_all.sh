@@ -20,8 +20,8 @@ apt install -y bpfcc-tools
 pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
 
 # enable fault inject and request stats
+replace_option $UBBD_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
 replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
-replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
 
 # build and insmod ubbd
 setup

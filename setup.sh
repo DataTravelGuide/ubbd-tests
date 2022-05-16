@@ -15,7 +15,7 @@ if [ ! -z "$UBBD_TESTS_SETUP_CMD" ]; then
 fi
 
 # enable request stats
-replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
+replace_option $UBBD_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
 
 # build and insmod ubbd
 setup
