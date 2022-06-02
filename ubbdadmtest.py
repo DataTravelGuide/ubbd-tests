@@ -24,7 +24,6 @@ class Ubbdadmtest(Test):
         self.ubbd_tests_dir = self.params.get("UBBD_TESTS_DIR")
 
         os.chdir(self.ubbd_dir)
-        process.run("dmesg -C ", sudo=True)
         if self.ubbdd_timeout:
             self.start_ubbdd_killer()
 
@@ -160,4 +159,3 @@ class Ubbdadmtest(Test):
     def tearDown(self):
         self.stop_devs()
         self.stop_ubbdd_killer()
-        self.whiteboard = process.system_output("dmesg").decode()

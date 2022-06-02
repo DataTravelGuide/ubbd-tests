@@ -62,6 +62,8 @@ replace_option xfstests.py.data/xfstests.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
 replace_option xfstests.py.data/xfstests.yaml UBBD_TESTS_DIR_DEFAULT ${UBBD_TESTS_DIR}
 replace_option xfstests.py.data/xfstests.yaml SCRATCH_MNT_DEFAULT ${XFSTESTS_SCRATCH_MNT}
 replace_option xfstests.py.data/xfstests.yaml TEST_MNT_DEFAULT ${XFSTESTS_TEST_MNT}
+replace_option xfstests.py.data/xfstests.yaml TEST_DEV_DEFAULT /dev/ubbd0
+replace_option xfstests.py.data/xfstests.yaml SCRATCH_DEV_DEFAULT /dev/ubbd1
 
 
 replace_option fio.py.data/fio.yaml UBBD_DEV_PATH /dev/ubbd2
