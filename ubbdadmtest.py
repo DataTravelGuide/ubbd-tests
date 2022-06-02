@@ -137,9 +137,32 @@ class Ubbdadmtest(Test):
                 return
             time.sleep(1)
 
+    def do_req_stats(self, dev):
+        cmd = str("%s/ubbdadm/ubbdadm --command req-stats --ubbdid %s" % (self.ubbd_dir, self.get_dev_id(dev)))
+        result = process.run(cmd, ignore_status=True)
+        self.log.info("req-stats result: %s" % (result))
+        return (result.exit_status == 0)
+
+    def dev_req_stats(self, dev):
+        while (True):
+            if (self.do_req_stats(dev)):
+                return
+            time.sleep(1)
+
+    def do_dev_restart(self, dev):
+        cmd = str("%s/ubbdadm/ubbdadm --command dev-restart --ubbdid %s --restart-mode queue" % (self.ubbd_dir, self.get_dev_id(dev)))
+        result = process.run(cmd, ignore_status=True)
+        self.log.info("dev-restart result: %s" % (result))
+        return (result.exit_status == 0)
+
+    def dev_restart(self, dev):
+        while (True):
+            if (self.do_dev_restart(dev)):
+                return
+            time.sleep(1)
 
     def do_ubbd_action(self):
-        action = random.randint(1, 2)
+        action = random.randint(1, 5)
         if action == 1:
             self.log.info("map")
             self.start_dev()
@@ -151,6 +174,14 @@ class Ubbdadmtest(Test):
             self.log.info("config")
             if (len(self.ubbd_dev_list) > 0):
                 self.config_dev(self.ubbd_dev_list[0])
+        elif action == 4:
+            self.log.info("req-stats")
+            if (len(self.ubbd_dev_list) > 0):
+                self.dev_req_stats(self.ubbd_dev_list[0])
+        elif action == 5:
+            self.log.info("dev-restart")
+            if (len(self.ubbd_dev_list) > 0):
+                self.dev_restart(self.ubbd_dev_list[0])
 
     def test(self):
         for i in range(0, self.ubbdadm_action_num):
