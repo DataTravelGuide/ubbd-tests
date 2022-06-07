@@ -77,6 +77,9 @@ class Ubbdadmtest(Test):
         while (True):
             if (self.__list_and_check(ubbd_dev)):
                 return
+
+            if self.ubbdd_timeout is not 0:
+                self.fail("list and check failed")
             time.sleep(1)
 
     def do_map(self):
@@ -109,6 +112,9 @@ class Ubbdadmtest(Test):
         while (True):
             if (self.do_map()):
                 return
+
+            if self.ubbdd_timeout is not 0:
+                self.fail("start device failed")
             time.sleep(1)
 
     def stop_dev(self, dev):
@@ -135,6 +141,9 @@ class Ubbdadmtest(Test):
         while (True):
             if (self.do_config(dev)):
                 return
+
+            if self.ubbdd_timeout is not 0:
+                self.fail("config device failed")
             time.sleep(1)
 
     def do_req_stats(self, dev):
@@ -147,6 +156,9 @@ class Ubbdadmtest(Test):
         while (True):
             if (self.do_req_stats(dev)):
                 return
+
+            if self.ubbdd_timeout is not 0:
+                self.fail("req-stats failed")
             time.sleep(1)
 
     def do_dev_restart(self, dev):
@@ -159,6 +171,9 @@ class Ubbdadmtest(Test):
         while (True):
             if (self.do_dev_restart(dev)):
                 return
+
+            if self.ubbdd_timeout is not 0:
+                self.fail("dev-restart failed")
             time.sleep(1)
 
     def do_ubbd_action(self):
