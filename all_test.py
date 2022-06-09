@@ -6,7 +6,7 @@ from avocado.core.job import Job
 from avocado.core.suite import TestSuite
 
 ubbdadmtest_config = {'resolver.references': ['ubbdadmtest.py:Ubbdadmtest.test'],
-          'yaml_to_mux.files': ['ubbdadmtest.py.data/ubbdadmtest.yaml'],
+          'yaml_to_mux.files': ['ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml'],
           'nrunner.max_parallel_tasks': 1,
           'run.dry_run.enabled': False}
 

@@ -3,15 +3,20 @@ UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
 VALGRIND: 0
 ubbd_backend_file: "UBBD_B_FILE_DEFAULT"
 ubbd_backend_file_size: UBBD_B_FILE_SIZE_DEFAULT
-ubbdadm_action_num: 10
+ubbdadm_action_num: 50
+always_retry: false
 ubbd_daemon_timeout: !mux
         no_timeout:
+                fail_directly: true
                 ubbdd_timeout: 0
         tensec:
+                fail_directly: false
                 ubbdd_timeout: 10
         onemin:
+                fail_directly: false
                 ubbdd_timeout: 60
         tenmin:
+                fail_directly: false
                 ubbdd_timeout: 600
 
 ubbd_dev_timeout: !mux

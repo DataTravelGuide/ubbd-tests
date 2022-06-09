@@ -19,15 +19,15 @@ fi
 apt install -y bpfcc-tools
 pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
 
-# enable fault inject and request stats
+# enable request stats
 replace_option $UBBD_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
-replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
+replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#define UBBD_FAULT_INJECT" "\#undef UBBD_FAULT_INJECT"
 
+# 1. prepare memleak first
 # build and insmod ubbd
 setup
 
-# 1. prepare memleak first
-prepare_ubbdd 1
+prepare_ubbdd 0
 
 cd ${UBBD_TESTS_DIR}
 replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
@@ -35,19 +35,32 @@ replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_TESTS_DIR_DEF
 replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
 replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
 
-avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml
+#avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest.yaml
+
+if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
+	${UBBD_TESTS_POST_TEST_CMDS}
+fi
 
 # sleep for memleak to output
 sleep 30
 kill_ubbdd
 
 # restart ubbdd to check memleak in reopen_devs
-prepare_ubbdd 1
+prepare_ubbdd 0
 unmap_ubbd_devs
 sleep 30
 kill_ubbdd
 
+#cleanup
+cleanup
+
 # 2. start other tests without memleak
+
+cd ${UBBD_DIR}
+replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
+
+setup
+
 prepare_ubbd_devs
 
 # replace default options with the real options

@@ -1,9 +1,11 @@
 import random
 import os
 import time
+import errno
 
 from avocado import Test
 from avocado.utils import process, genio
+
 
 class Ubbdadmtest(Test):
 
@@ -22,6 +24,9 @@ class Ubbdadmtest(Test):
         self.fio_direct = self.params.get("fio_direct")
         self.ubbd_dir = self.params.get("UBBD_DIR")
         self.ubbd_tests_dir = self.params.get("UBBD_TESTS_DIR")
+        self.fail_directly = self.params.get("fail_directly")
+        self.always_retry = self.params.get("always_retry")
+        self.ignore_exit_status = [(256 - errno.ECONNABORTED), -errno.EACCES]
 
         os.chdir(self.ubbd_dir)
         if self.ubbdd_timeout:
@@ -64,6 +69,10 @@ class Ubbdadmtest(Test):
         cmd = str("%s/ubbdadm/ubbdadm --command list" % (self.ubbd_dir))
         result = process.run(cmd, ignore_status=True)
         if result.exit_status:
+            if self.always_retry:
+                return False
+            if self.fail_directly or (result.exit_status not in self.ignore_exit_status):
+                self.fail("list and check failed")
             return False
 
         dev_list = result.stdout_text.strip().split()
@@ -78,14 +87,16 @@ class Ubbdadmtest(Test):
             if (self.__list_and_check(ubbd_dev)):
                 return
 
-            if self.ubbdd_timeout is not 0:
-                self.fail("list and check failed")
             time.sleep(1)
 
     def do_map(self):
         result = process.run("%s/ubbdadm/ubbdadm --command map --type file --filepath %s --devsize %s" % (self.ubbd_dir, self.ubbd_backend_file, self.ubbd_backend_file_size), ignore_status=True, shell=True)
         if result.exit_status:
             self.log.error("map error: %s" % (result))
+            if self.always_retry:
+                return False
+            if self.fail_directly or (result.exit_status not in self.ignore_exit_status):
+                self.fail("start device failed")
             return False
 
         self.log.info("map result: %s" % (result))
@@ -93,6 +104,7 @@ class Ubbdadmtest(Test):
         if (len(ubbd_dev) == 0):
             self.log.error("stdout of map is none")
             return False
+
         self.list_and_check(ubbd_dev)
         self.set_dev_timeout(ubbd_dev)
         self.start_fio(ubbd_dev)
@@ -106,15 +118,19 @@ class Ubbdadmtest(Test):
             cmd = str("%s --force" % cmd)
         result = process.run(cmd, ignore_status=True)
         self.log.info("unmap result: %s" % (result))
-        return (result.exit_status == 0)
+        if (result.exit_status):
+            if self.always_retry:
+                return False
+            if self.fail_directly or (result.exit_status not in self.ignore_exit_status):
+                self.fail("unmap dev failed.")
+            return False
+        return True
 
     def start_dev(self):
         while (True):
             if (self.do_map()):
                 return
 
-            if self.ubbdd_timeout is not 0:
-                self.fail("start device failed")
             time.sleep(1)
 
     def stop_dev(self, dev):
@@ -135,45 +151,57 @@ class Ubbdadmtest(Test):
         cmd = str("%s/ubbdadm/ubbdadm --command config --ubbdid %s --data-pages-reserve %s" % (self.ubbd_dir, self.get_dev_id(dev), self.ubbd_page_reserve))
         result = process.run(cmd, ignore_status=True)
         self.log.info("config result: %s" % (result))
-        return (result.exit_status == 0)
+        if (result.exit_status):
+            if self.always_retry:
+                return False
+            if self.fail_directly or (result.exit_status not in self.ignore_exit_status):
+                self.fail("config device failed")
+            return False
+        return True
 
     def config_dev(self, dev):
         while (True):
             if (self.do_config(dev)):
                 return
 
-            if self.ubbdd_timeout is not 0:
-                self.fail("config device failed")
             time.sleep(1)
 
     def do_req_stats(self, dev):
         cmd = str("%s/ubbdadm/ubbdadm --command req-stats --ubbdid %s" % (self.ubbd_dir, self.get_dev_id(dev)))
         result = process.run(cmd, ignore_status=True)
         self.log.info("req-stats result: %s" % (result))
-        return (result.exit_status == 0)
+        if (result.exit_status):
+            if self.always_retry:
+                return False
+            if self.fail_directly or (result.exit_status not in self.ignore_exit_status):
+                self.fail("req-stats failed")
+            return False
+        return True
 
     def dev_req_stats(self, dev):
         while (True):
             if (self.do_req_stats(dev)):
                 return
 
-            if self.ubbdd_timeout is not 0:
-                self.fail("req-stats failed")
             time.sleep(1)
 
     def do_dev_restart(self, dev):
         cmd = str("%s/ubbdadm/ubbdadm --command dev-restart --ubbdid %s --restart-mode queue" % (self.ubbd_dir, self.get_dev_id(dev)))
         result = process.run(cmd, ignore_status=True)
         self.log.info("dev-restart result: %s" % (result))
-        return (result.exit_status == 0)
+        if (result.exit_status):
+            if self.always_retry:
+                return False
+            if self.fail_directly or (result.exit_status not in self.ignore_exit_status):
+                self.fail("dev-restart failed")
+            return False
+        return True
 
     def dev_restart(self, dev):
         while (True):
             if (self.do_dev_restart(dev)):
                 return
 
-            if self.ubbdd_timeout is not 0:
-                self.fail("dev-restart failed")
             time.sleep(1)
 
     def do_ubbd_action(self):

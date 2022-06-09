@@ -105,10 +105,9 @@ unmap_ubbd_devs ()
 
 cleanup ()
 {
+	cd $UBBD_TESTS_DIR
 	umount /mnt
 	umount /media
-
-	. ./local_conf
 
 	if [ -z "$UBBD_DIR" ]; then
 		echo "UBBD_DIR must be set in local_conf: UBBD_DIR=/xxx/xxxx"

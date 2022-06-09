@@ -4,9 +4,17 @@ VALGRIND: 0
 ubbd_backend_file: "UBBD_B_FILE_DEFAULT"
 ubbd_backend_file_size: UBBD_B_FILE_SIZE_DEFAULT
 ubbdadm_action_num: 10
+always_retry: true
+fail_directly: false
 ubbd_daemon_timeout: !mux
         no_timeout:
                 ubbdd_timeout: 0
+        tensec:
+                ubbdd_timeout: 10
+        onemin:
+                ubbdd_timeout: 60
+        tenmin:
+                ubbdd_timeout: 600
 
 ubbd_dev_timeout: !mux
         no_timeout:
