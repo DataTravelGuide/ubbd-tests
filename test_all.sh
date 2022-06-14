@@ -30,12 +30,12 @@ setup
 prepare_ubbdd 0
 
 cd ${UBBD_TESTS_DIR}
-replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
-replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_TESTS_DIR_DEFAULT ${UBBD_TESTS_DIR}
-replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
-replace_option ubbdadmtest.py.data/ubbdadmtest_no_killer.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_TESTS_DIR_DEFAULT ${UBBD_TESTS_DIR}
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
 
-#avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest.yaml
+avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest.yaml
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
 	${UBBD_TESTS_POST_TEST_CMDS}
@@ -65,10 +65,10 @@ prepare_ubbd_devs
 
 # replace default options with the real options
 cd ${UBBD_TESTS_DIR}
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_TESTS_DIR_DEFAULT ${UBBD_TESTS_DIR}
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml UBBD_TESTS_DIR_DEFAULT ${UBBD_TESTS_DIR}
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
 
 replace_option xfstests.py.data/xfstests.yaml XFSTESTS_DIR_DEFAULT ${UBBD_TESTS_XFSTESTS_DIR}
 replace_option xfstests.py.data/xfstests.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
