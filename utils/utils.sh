@@ -15,6 +15,7 @@ setup ()
 {
 	# build and insmod ubbd
 	cd $UBBD_DIR
+	make
 	make install
 	sleep 1
 	modprobe uio
