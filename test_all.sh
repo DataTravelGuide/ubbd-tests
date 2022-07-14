@@ -35,11 +35,11 @@ replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_TESTS_DIR_DEFAULT ${UBB
 replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
 replace_option ubbdadmtest.py.data/ubbdadmtest.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
 
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_ACCESS_ID $(UBBD_S3_ACCESSID)
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_ACCESS_KEY $(UBBD_S3_ACCESSKEY)
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_HOSTNAME $(UBBD_S3_HOSTNAME)
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_PORT $(UBBD_S3_PORT)
-replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_BUCKET_NAME $(UBBD_BUCKET_NAME)
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_ACCESS_ID ${UBBD_S3_ACCESSID}
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_ACCESS_KEY ${UBBD_S3_ACCESSKEY}
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_HOSTNAME ${UBBD_S3_HOSTNAME}
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_PORT ${UBBD_S3_PORT}
+replace_option ubbdadmtest.py.data/ubbdadmtest.yaml S3_BUCKET_NAME ${UBBD_BUCKET_NAME}
 
 avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest.yaml
 
@@ -76,11 +76,11 @@ replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml UBBD_TESTS_DIR_
 replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml UBBD_B_FILE_DEFAULT "/dev/ram0p1"
 replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml UBBD_B_FILE_SIZE_DEFAULT 1048576000
 
-replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_ACCESS_ID $(UBBD_S3_ACCESSID)
-replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_ACCESS_KEY $(UBBD_S3_ACCESSKEY)
-replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_HOSTNAME $(UBBD_S3_HOSTNAME)
-replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_PORT $(UBBD_S3_PORT)
-replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_BUCKET_NAME $(UBBD_BUCKET_NAME)
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_ACCESS_ID ${UBBD_S3_ACCESSID}
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_ACCESS_KEY ${UBBD_S3_ACCESSKEY}
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_HOSTNAME ${UBBD_S3_HOSTNAME}
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_PORT ${UBBD_S3_PORT}
+replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject.yaml S3_BUCKET_NAME ${UBBD_BUCKET_NAME}
 
 replace_option xfstests.py.data/xfstests.yaml XFSTESTS_DIR_DEFAULT ${UBBD_TESTS_XFSTESTS_DIR}
 replace_option xfstests.py.data/xfstests.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
