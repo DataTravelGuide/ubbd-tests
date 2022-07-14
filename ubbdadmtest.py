@@ -27,12 +27,12 @@ class Ubbdadmtest(Test):
         self.fail_directly = self.params.get("fail_directly")
         self.always_retry = self.params.get("always_retry")
         self.ignore_exit_status = [(256 - errno.ECONNABORTED), -errno.EACCES]
-        self.s3_accessid = elf.params.get("s3_accessid")
-        self.s3_accesskey = elf.params.get("s3_accesskey")
-        self.s3_hostname = elf.params.get("s3_hostname")
-        self.s3_port = elf.params.get("s3_port")
-        self.s3_volume_name = elf.params.get("s3_volume_name")
-        self.s3_bucket_name = elf.params.get("s3_bucket_name")
+        self.s3_accessid = self.params.get("s3_accessid")
+        self.s3_accesskey = self.params.get("s3_accesskey")
+        self.s3_hostname = self.params.get("s3_hostname")
+        self.s3_port = self.params.get("s3_port")
+        self.s3_volume_name = self.params.get("s3_volume_name")
+        self.s3_bucket_name = self.params.get("s3_bucket_name")
 
         os.chdir(self.ubbd_dir)
         if self.ubbdd_timeout:
