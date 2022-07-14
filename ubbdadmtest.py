@@ -33,6 +33,7 @@ class Ubbdadmtest(Test):
         self.s3_port = self.params.get("s3_port")
         self.s3_volume_name = self.params.get("s3_volume_name")
         self.s3_bucket_name = self.params.get("s3_bucket_name")
+        self.map_type = self.params.get("ubbd_map_type")
 
         os.chdir(self.ubbd_dir)
         if self.ubbdd_timeout:
@@ -98,10 +99,9 @@ class Ubbdadmtest(Test):
     def do_map(self):
         if (self.map_type == "file"):
             cmd = str("%s/ubbdadm/ubbdadm --command map --type file --filepath %s --devsize %s" % (self.ubbd_dir, self.ubbd_backend_file, self.ubbd_backend_file_size))
-        else if (self.map_type == "s3"):
-            cmd = str("%s/ubbdadm/ubbdadm --command map --type s3 --accessid \"%s\" --accesskey \"%s\" --hostname \"%s\" --port %s --volume-name \"%s\"
-                    --devsize $((1024*1024*1024)) --block-size $((4*1024)) --bucket-name \"%s\"" % 
-                    (self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_bucket_name))
+        elif (self.map_type == "s3"):
+            cmd = str("%s/ubbdadm/ubbdadm --command map --type s3 --accessid \"%s\" --accesskey \"%s\" --hostname \"%s\" --port %s --volume-name \"%s\" --devsize $((1024*1024*1024)) --block-size $((4*1024)) --bucket-name \"%s\"" % (self.ubbd_dir, self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_bucket_name))
+
         result = process.run(cmd, ignore_status=True, shell=True)
         if result.exit_status:
             self.log.error("map error: %s" % (result))
