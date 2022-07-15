@@ -20,6 +20,7 @@ ubbd_backing_type: !mux
                 s3_port: "S3_PORT"
                 s3_volume_name: "ubbd_test"
                 s3_bucket_name: "S3_BUCKET_NAME"
+                s3_dev_size: S3_DEV_SIZE_DEFAULT
 
 ubbd_cache_mode: !mux
         writeback:

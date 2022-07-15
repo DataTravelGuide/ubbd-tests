@@ -31,6 +31,7 @@ class CacheBackendtest(Test):
         self.s3_port = self.params.get("s3_port")
         self.s3_volume_name = self.params.get("s3_volume_name")
         self.s3_bucket_name = self.params.get("s3_bucket_name")
+        self.s3_dev_size = self.params.get("s3_dev_size")
 
         self.ubbd_data_size = self.params.get("ubbd_data_size")
         self.ubbd_data_size_extra = self.params.get("ubbd_data_size_extra")
@@ -54,7 +55,7 @@ class CacheBackendtest(Test):
         if (self.ubbd_backing_type == "file"):
             cmd = str("%s --backing-dev-type file --backing-dev-filepath %s --backing-dev-devsize %s " % (cmd, self.ubbd_backing_file, self.ubbd_backing_file_size))
         elif (self.ubbd_backing_type == "s3"):
-            cmd = str("%s --backing-dev-type s3 --backing-dev-accessid %s --backing-dev-accesskey %s --backing-dev-hostname %s --backing-dev-port %s --backing-dev-volume-name %s --backing-dev-devsize %s --backing-dev-bucket-name %s --backing-dev-block-size 4096" % (cmd, self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_bucket_name))
+            cmd = str("%s --backing-dev-type s3 --backing-dev-accessid %s --backing-dev-accesskey %s --backing-dev-hostname %s --backing-dev-port %s --backing-dev-volume-name %s --backing-dev-devsize %s --backing-dev-bucket-name %s --backing-dev-block-size 4096" % (cmd, self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_dev_size, self.s3_bucket_name))
 
         result = process.run(cmd, ignore_status=True, shell=True)
         if result.exit_status:
@@ -98,7 +99,7 @@ class CacheBackendtest(Test):
         if (self.ubbd_backing_type == "file"):
             cmd = str("ubbdadm --command map --type file --devsize %s --filepath %s " % (self.ubbd_backing_file_size, self.ubbd_backing_file))
         elif (self.ubbd_backing_type == "s3"):
-            cmd = str("ubbdadm --command map --type s3 --accessid %s --accesskey %s --hostname %s --port %s --volume-name %s --devsize %s --bucket-name %s --block-size 4096" % (self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_bucket_name))
+            cmd = str("ubbdadm --command map --type s3 --accessid %s --accesskey %s --hostname %s --port %s --volume-name %s --devsize %s --bucket-name %s --block-size 4096" % (self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_dev_size, self.s3_bucket_name))
 
         result = process.run(cmd, shell=True)
 
