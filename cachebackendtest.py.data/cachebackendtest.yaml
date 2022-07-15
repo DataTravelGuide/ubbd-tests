@@ -1,17 +1,17 @@
 UBBD_DIR: "UBBD_DIR_DEFAULT"
 UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
 VALGRIND: 0
-ubbd_dev_size: UBBD_DEV_SIZE
+ubbd_dev_size: UBBD_DEV_SIZE_DEFAULT
 ubbd_cache_type: !mux
         file:
                 ubbd_cache_type: "file"
-                ubbd_cache_file: "UBBD_CACHE_FILE"
-                ubbd_cache_file_size: UBBD_CACHE_FILE_SIZE
+                ubbd_cache_file: "UBBD_CACHE_FILE_DEFAULT"
+                ubbd_cache_file_size: UBBD_CACHE_FILE_SIZE_DEFAULT
 ubbd_backing_type: !mux
         file:
                 ubbd_backing_type: "file"
-                ubbd_backing_file: "UBBD_BACKING_FILE"
-                ubbd_backing_file_size: UBBD_BACKING_FILE_SIZE
+                ubbd_backing_file: "UBBD_BACKING_FILE_DEFAULT"
+                ubbd_backing_file_size: UBBD_BACKING_FILE_SIZE_DEFAULT
         s3:
                 ubbd_backing_type: "s3"
                 s3_accessid: "S3_ACCESS_ID"
