@@ -23,7 +23,49 @@ pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avo
 replace_option $UBBD_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
 replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#define UBBD_FAULT_INJECT" "\#undef UBBD_FAULT_INJECT"
 
-# 1. prepare memleak first
+# 1. cache backend test
+
+# build and insmod ubbd
+setup
+
+prepare_ubbdd 0
+
+cd ${UBBD_TESTS_DIR}
+replace_option cachebackendtest.py.data/cachebackendtest.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
+replace_option cachebackendtest.py.data/cachebackendtest.yaml UBBD_TESTS_DIR_DEFAULT ${UBBD_TESTS_DIR}
+replace_option cachebackendtest.py.data/cachebackendtest.yaml UBBD_DEV_SIZE_DEFAULT 1048576000
+replace_option cachebackendtest.py.data/cachebackendtest.yaml UBBD_CACHE_FILE_DEFAULT "/dev/ram0p1"
+replace_option cachebackendtest.py.data/cachebackendtest.yaml UBBD_CACHE_FILE_SIZE_DEFAULT 1048576000
+
+replace_option cachebackendtest.py.data/cachebackendtest.yaml UBBD_BACKING_FILE_DEFAULT "/dev/ram0p2"
+replace_option cachebackendtest.py.data/cachebackendtest.yaml UBBD_BACKING_FILE_SIZE_DEFAULT 1048576000
+
+replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_ACCESS_ID ${UBBD_S3_ACCESSID}
+replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_ACCESS_KEY ${UBBD_S3_ACCESSKEY}
+replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_HOSTNAME ${UBBD_S3_HOSTNAME}
+replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_PORT ${UBBD_S3_PORT}
+replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_BUCKET_NAME ${UBBD_BUCKET_NAME}
+
+avocado run --nrunner-max-parallel-tasks 1  cachebackendtest.py -m cachebackendtest.py.data/cachebackendtest.yaml
+
+if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
+	${UBBD_TESTS_POST_TEST_CMDS}
+fi
+
+# sleep for memleak to output
+sleep 30
+kill_ubbdd
+
+# restart ubbdd to check memleak in reopen_devs
+prepare_ubbdd 0
+unmap_ubbd_devs
+sleep 30
+kill_ubbdd
+
+#cleanup
+cleanup
+
+# 2. prepare memleak first
 # build and insmod ubbd
 setup
 
@@ -60,7 +102,7 @@ kill_ubbdd
 #cleanup
 cleanup
 
-# 2. start other tests without memleak
+# 3. start other tests without memleak
 
 cd ${UBBD_DIR}
 replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"

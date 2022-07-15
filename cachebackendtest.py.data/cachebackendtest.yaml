@@ -1,0 +1,89 @@
+UBBD_DIR: "UBBD_DIR_DEFAULT"
+UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
+VALGRIND: 0
+ubbd_dev_size: UBBD_DEV_SIZE
+ubbd_cache_type: !mux
+        file:
+                ubbd_cache_type: "file"
+                ubbd_cache_file: "UBBD_CACHE_FILE"
+                ubbd_cache_file_size: UBBD_CACHE_FILE_SIZE
+ubbd_backing_type: !mux
+        file:
+                ubbd_backing_type: "file"
+                ubbd_backing_file: "UBBD_BACKING_FILE"
+                ubbd_backing_file_size: UBBD_BACKING_FILE_SIZE
+        s3:
+                ubbd_backing_type: "s3"
+                s3_accessid: "S3_ACCESS_ID"
+                s3_accesskey: "S3_ACCESS_KEY"
+                s3_hostname: "S3_HOSTNAME"
+                s3_port: "S3_PORT"
+                s3_volume_name: "ubbd_test"
+                s3_bucket_name: "S3_BUCKET_NAME"
+
+ubbd_cache_mode: !mux
+        writeback:
+                ubbd_cache_mode: "writeback"
+        writethrough:
+                ubbd_cache_mode: "writethrough"
+
+ubbd_data_size: !mux
+        1b:
+                ubbd_data_size: 1
+        10b:
+                ubbd_data_size: 10
+        1K:
+                ubbd_data_size: 1024
+        2K:
+                ubbd_data_size: 2048
+        4K:
+                ubbd_data_size: 4096
+        8K:
+                ubbd_data_size: 8192
+        16K:
+                ubbd_data_size: 16384
+        32K:
+                ubbd_data_size: 32768
+        64K:
+                ubbd_data_size: 65536
+        128K:
+                ubbd_data_size: 131072
+        256K:
+                ubbd_data_size: 262144 
+        512K:
+                ubbd_data_size: 524288
+        1M:
+                ubbd_data_size: 1048576
+        4M:
+                ubbd_data_size: 4194304
+ubbd_data_size_extra: !mux
+        zero:
+                ubbd_data_size_extra: 0
+        1b:
+                ubbd_data_size_extra: 1
+        10b:
+                ubbd_data_size_extra: 10
+        1K:
+                ubbd_data_size_extra: 1024
+        2K:
+                ubbd_data_size_extra: 2048
+        4K:
+                ubbd_data_size_extra: 4096
+        8K:
+                ubbd_data_size_extra: 8192
+        16K:
+                ubbd_data_size_extra: 16384
+        32K:
+                ubbd_data_size_extra: 32768
+        64K:
+                ubbd_data_size_extra: 65536
+        128K:
+                ubbd_data_size_extra: 131072
+        256K:
+                ubbd_data_size_extra: 262144 
+        512K:
+                ubbd_data_size_extra: 524288
+        1M:
+                ubbd_data_size_extra: 1048576
+        4M:
+                ubbd_data_size_extra: 4194304
