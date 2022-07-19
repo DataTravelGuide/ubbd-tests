@@ -19,5 +19,11 @@ XFSTESTS_TEST_MNT="/mnt/test"
 
 FIOTEST_OUTFILE="fio_output.csv"
 
+UBBD_S3_ACCESSID="XXX"
+UBBD_S3_ACCESSKEY="XXX"
+UBBD_S3_HOSTNAME="XXX"
+UBBD_S3_PORT="0"
+UBBD_BUCKET_NAME="XXX"
+
 3. run test:
 # bash test_all.sh
