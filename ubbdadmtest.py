@@ -36,6 +36,7 @@ class Ubbdadmtest(Test):
         self.map_type = self.params.get("ubbd_map_type")
         self.fio_iodepth = self.params.get("fio_iodepth")
         self.fio_numjobs = self.params.get("fio_numjobs")
+        self.start_fio = self.params.get("start_fio")
 
         os.chdir(self.ubbd_dir)
         if self.ubbdd_timeout:
@@ -54,7 +55,9 @@ class Ubbdadmtest(Test):
         process.kill_process_tree(self.proc.get_pid())
         self.log.info("ubbdd killer stopped")
 
-    def start_fio(self, ubbd_dev):
+    def start_fio_process(self, ubbd_dev):
+        if not self.start_fio:
+            return
         cmd = str("fio --name test --rw randrw --bs %s --ioengine libaio --filename %s --numjobs %s --iodepth %s --eta-newline 1 " % (self.fio_block_size, ubbd_dev, self.fio_numjobs, self.fio_iodepth))
         if (self.fio_iops_limit != 0):
             cmd = str("%s --rate_iops %s" % (cmd, self.fio_iops_limit))
@@ -121,7 +124,7 @@ class Ubbdadmtest(Test):
 
         self.list_and_check(ubbd_dev)
         self.set_dev_timeout(ubbd_dev)
-        self.start_fio(ubbd_dev)
+        self.start_fio_process(ubbd_dev)
         self.ubbd_dev_list.append(ubbd_dev)
         self.log.info(self.ubbd_dev_list)
         return True
