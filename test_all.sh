@@ -45,7 +45,7 @@ replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_ACCESS_KEY ${UB
 replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_HOSTNAME ${UBBD_S3_HOSTNAME}
 replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_PORT ${UBBD_S3_PORT}
 replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_BUCKET_NAME ${UBBD_BUCKET_NAME}
-replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_DEV_SIZE_DEFAULT 1048576000
+replace_option cachebackendtest.py.data/cachebackendtest.yaml S3_DEV_SIZE_DEFAULT 31457280
 
 avocado run --nrunner-max-parallel-tasks 1  cachebackendtest.py -m cachebackendtest.py.data/cachebackendtest.yaml
 
