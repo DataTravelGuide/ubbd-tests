@@ -9,6 +9,8 @@ ubbd_map_type: !mux
                 ubbd_map_type: "file"
                 ubbd_backend_file: "UBBD_B_FILE_DEFAULT"
                 ubbd_backend_file_size: UBBD_B_FILE_SIZE_DEFAULT
+                fio_iodepth: 128
+                fio_numjobs: 16
         s3:
                 ubbd_map_type: "s3"
                 s3_accessid: "S3_ACCESS_ID"
@@ -17,6 +19,9 @@ ubbd_map_type: !mux
                 s3_port: "S3_PORT"
                 s3_volume_name: "ubbd_test"
                 s3_bucket_name: "S3_BUCKET_NAME"
+                fio_iodepth: 1
+                fio_numjobs: 1
+
 ubbd_daemon_timeout: !mux
         no_timeout:
                 ubbdd_timeout: 0

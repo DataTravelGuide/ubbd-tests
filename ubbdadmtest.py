@@ -34,6 +34,8 @@ class Ubbdadmtest(Test):
         self.s3_volume_name = self.params.get("s3_volume_name")
         self.s3_bucket_name = self.params.get("s3_bucket_name")
         self.map_type = self.params.get("ubbd_map_type")
+        self.fio_iodepth = self.params.get("fio_iodepth")
+        self.fio_numjobs = self.params.get("fio_numjobs")
 
         os.chdir(self.ubbd_dir)
         if self.ubbdd_timeout:
@@ -53,7 +55,7 @@ class Ubbdadmtest(Test):
         self.log.info("ubbdd killer stopped")
 
     def start_fio(self, ubbd_dev):
-        cmd = str("fio --name test --rw randrw --bs %s --ioengine libaio --filename %s --numjobs 16 --iodepth 128 --eta-newline 1 " % (self.fio_block_size, ubbd_dev))
+        cmd = str("fio --name test --rw randrw --bs %s --ioengine libaio --filename %s --numjobs %s --iodepth %s --eta-newline 1 " % (self.fio_block_size, ubbd_dev, self.fio_numjobs, self.fio_iodepth))
         if (self.fio_iops_limit != 0):
             cmd = str("%s --rate_iops %s" % (cmd, self.fio_iops_limit))
         if (self.fio_direct):
