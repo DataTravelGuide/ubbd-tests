@@ -51,6 +51,9 @@ class CacheBackendtest(Test):
 
         if (self.ubbd_cache_type == "file"):
             cmd = str("%s --cache-dev-type file --cache-dev-filepath %s --cache-dev-devsize %s " % (cmd, self.ubbd_cache_file, self.ubbd_cache_file_size))
+            if (init):
+                init_cmd = str("dd if=/dev/zero of=%s bs=1M count=100" % self.ubbd_cache_file)
+                process.run(init_cmd, shell=True)
 
         if (self.ubbd_backing_type == "file"):
             cmd = str("%s --backing-dev-type file --backing-dev-filepath %s --backing-dev-devsize %s " % (cmd, self.ubbd_backing_file, self.ubbd_backing_file_size))
