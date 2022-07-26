@@ -59,13 +59,11 @@ class CacheBackendtest(Test):
 
         result = process.run(cmd, ignore_status=True, shell=True)
         if result.exit_status:
-            self.log.error("setup dev error: %s" % (result))
-            return False
+            self.fail("setup dev error.")
 
         self.ubbd_dev = result.stdout_text.strip()
         if (len(self.ubbd_dev) == 0):
-            self.log.error("dev is none")
-            return False
+            self.fail("ubbd_dev is none")
 
         if (init):
             cmd = str("mkfs.xfs -f %s" % (self.ubbd_dev))
@@ -105,8 +103,7 @@ class CacheBackendtest(Test):
 
         self.ubbd_dev = result.stdout_text.strip()
         if (len(self.ubbd_dev) == 0):
-            self.log.error("dev is none")
-            return False
+            self.fail("dev is none")
 
         cmd = str("mount %s %s" % (self.ubbd_dev, self.mount_dir))
         process.run(cmd, shell=True)
