@@ -165,7 +165,7 @@ class Ubbdadmtest(Test):
 
 
     def do_config(self, dev):
-        cmd = str("%s/ubbdadm/ubbdadm --command config --ubbdid %s --data-pages-reserve %s" % (self.ubbd_dir, self.get_dev_id(dev), self.ubbd_page_reserve))
+        cmd = str("%s/ubbdadm/ubbdadm --command config --ubbdid %s --data-pages-reserve-percnt %s" % (self.ubbd_dir, self.get_dev_id(dev), self.ubbd_page_reserve))
         result = process.run(cmd, ignore_status=True)
         self.log.info("config result: %s" % (result))
         if (result.exit_status):
