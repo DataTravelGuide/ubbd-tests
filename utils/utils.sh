@@ -14,12 +14,13 @@ wait_for_ubbdd ()
 setup ()
 {
 	# build and insmod ubbd
+	cd $UBBD_KERNEL_DIR
+	make mod
+	make install
+	sleep 1
 	cd $UBBD_DIR
 	make
 	make install
-	sleep 1
-	modprobe uio
-	insmod kmods/ubbd.ko
 	sleep 1
 
 	# prepare ramdisk for testing.
@@ -48,8 +49,7 @@ prepare_ubbdd ()
 	cd $UBBD_DIR
 	# kill ubbdd and restart it background
 	kill_ubbdd
-	modprobe uio
-	insmod kmods/ubbd.ko
+	modprobe ubbd
 
 	sh -x $UBBD_TESTS_DIR/utils/start_ubbdd.sh $memleak 1 &
 	wait_for_ubbdd
