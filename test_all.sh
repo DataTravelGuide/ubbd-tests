@@ -25,7 +25,7 @@ fi
 
 # install requirements
 apt install -y bpfcc-tools
-pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
+pip install avocado-framework==96.0 avocado-framework-plugin-varianter-yaml-to-mux==96.0 avocado-framework-plugin-result-html==96.0
 
 # enable request stats
 replace_option $UBBD_KERNEL_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
