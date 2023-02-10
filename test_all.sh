@@ -28,8 +28,8 @@ apt install -y bpfcc-tools
 pip install avocado-framework avocado-framework-plugin-varianter-yaml-to-mux avocado-framework-plugin-result-html
 
 # enable request stats
-replace_option $UBBD_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
-replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#define UBBD_FAULT_INJECT" "\#undef UBBD_FAULT_INJECT"
+replace_option $UBBD_KERNEL_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
+replace_option $UBBD_KERNEL_DIR/ubbd_internal.h "\#define UBBD_FAULT_INJECT" "\#undef UBBD_FAULT_INJECT"
 
 # 1. cache backend test
 
@@ -114,7 +114,7 @@ cleanup
 # 3. start other tests without memleak
 
 cd ${UBBD_DIR}
-replace_option $UBBD_DIR/kmods/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
+replace_option $UBBD_KERNEL_DIR/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
 
 setup
 
