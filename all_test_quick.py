@@ -5,22 +5,26 @@ import sys
 from avocado.core.job import Job
 from avocado.core.suite import TestSuite
 
-ubbdadmtest_config = {'resolver.references': ['ubbdadmtest.py:Ubbdadmtest.test'],
+ubbdadmtest_config = {'run.references': ['ubbdadmtest.py:Ubbdadmtest.test'],
+          'resolver.references': ['ubbdadmtest.py:Ubbdadmtest.test'],
           'yaml_to_mux.files': ['ubbdadmtest.py.data/ubbdadmtest_quick.yaml'],
           'nrunner.max_parallel_tasks': 1,
           'run.dry_run.enabled': False}
 
-xfstests_config = {'resolver.references': ['xfstests.py:Xfstests.test'],
+xfstests_config = {'run.references': ['xfstests.py:Xfstests.test'],
+        'resolver.references': ['xfstests.py:Xfstests.test'],
           'yaml_to_mux.files': ['xfstests.py.data/xfstests_quick.yaml'],
           'nrunner.max_parallel_tasks': 1,
           'run.dry_run.enabled': False}
 
-fio_config = {'resolver.references': ['fio.py:Fiotest.test'],
+fio_config = {'run.references': ['fio.py:Fiotest.test'],
+          'resolver.references': ['fio.py:Fiotest.test'],
           'yaml_to_mux.files': ['fio.py.data/fio_quick.yaml'],
           'nrunner.max_parallel_tasks': 1,
           'run.dry_run.enabled': False}
 
-upgradeonline_config = {'resolver.references': ['upgradeonline.py:Upgradeonlinetest.test'],
+upgradeonline_config = {'run.references': ['upgradeonline.py:Upgradeonlinetest.test'],
+          'resolver.references': ['upgradeonline.py:Upgradeonlinetest.test'],
           'yaml_to_mux.files': ['upgradeonline.py.data/upgradeonline_quick.yaml'],
           'nrunner.max_parallel_tasks': 1,
           'run.dry_run.enabled': False}
