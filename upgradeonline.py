@@ -37,7 +37,7 @@ class Upgradeonlinetest(Test):
         cmd = str("fio --name test --rw randwrite --bs 4K --ioengine libaio --filename %s  --direct 1 --numjobs 1 --iodepth 128  --verify md5 --group_reporting --eta-newline 1" % (self.ubbd_dev))
 
         if (self.fio_size):
-            cmd = str("%s --size %s" % (self.fio_size))
+            cmd = str("%s --size %s" % (cmd, self.fio_size))
 
         result = process.run(cmd)
         if (result.exit_status):
