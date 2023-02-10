@@ -24,7 +24,7 @@ if [ ! -z "$UBBD_TESTS_SETUP_CMD" ]; then
 fi
 
 # install requirements
-apt install -y bpfcc-tools
+apt install -y bpfcc-tools fio
 pip install avocado-framework==96.0 avocado-framework-plugin-varianter-yaml-to-mux==96.0 avocado-framework-plugin-result-html==96.0
 
 # enable request stats
