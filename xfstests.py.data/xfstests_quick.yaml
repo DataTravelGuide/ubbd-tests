@@ -1,0 +1,17 @@
+xfstests_dir: 'XFSTESTS_DIR_DEFAULT'
+ubbd_dir: "UBBD_DIR_DEFAULT"
+ubbd_tests_dir: "UBBD_TESTS_DIR_DEFAULT"
+scratch_mnt: 'SCRATCH_MNT_DEFAULT'
+test_mnt: 'TEST_MNT_DEFAULT'
+test_set: '-g quick'
+ubbdd_timeout: !mux
+        no_timeout:
+                ubbdd_timeout: 0
+fs_type: !mux
+        fs_xfs:
+                fs: 'xfs'
+                # Exclude only if test_range not provided
+                exclude: 'null'
+disk_type: !mux
+        disk_test: 'TEST_DEV_DEFAULT'
+        disk_scratch: 'SCRATCH_DEV_DEFAULT'

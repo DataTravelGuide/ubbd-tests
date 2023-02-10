@@ -1,0 +1,35 @@
+UBBD_DIR: "UBBD_DIR_DEFAULT"
+UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
+VALGRIND: 0
+ubbd_dev_size: UBBD_DEV_SIZE_DEFAULT
+ubbd_cache_type: !mux
+        file:
+                ubbd_cache_type: "file"
+                ubbd_cache_file: "UBBD_CACHE_FILE_DEFAULT"
+                ubbd_cache_file_size: UBBD_CACHE_FILE_SIZE_DEFAULT
+ubbd_backing_type: !mux
+        file:
+                ubbd_backing_type: "file"
+                ubbd_backing_file: "UBBD_BACKING_FILE_DEFAULT"
+                ubbd_backing_file_size: UBBD_BACKING_FILE_SIZE_DEFAULT
+
+ubbd_cache_mode: !mux
+        writeback:
+                ubbd_cache_mode: "writeback"
+        writethrough:
+                ubbd_cache_mode: "writethrough"
+
+ubbd_data_size: !mux
+        1b:
+                ubbd_data_size: 1
+        4K:
+                ubbd_data_size: 4096
+        4M:
+                ubbd_data_size: 4194304
+ubbd_data_size_extra: !mux
+        zero:
+                ubbd_data_size_extra: 0
+        1b:
+                ubbd_data_size_extra: 1
+        4K:
+                ubbd_data_size_extra: 4096
