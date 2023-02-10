@@ -1,5 +1,6 @@
 UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
 ubbd_dev: "UBBD_DEV_DEFAULT"
 ubbd_daemon_timeout: !mux
-        tensec:
+        10sec:
                 ubbdd_timeout: 10
+                fio_size: 500M

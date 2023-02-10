@@ -14,6 +14,7 @@ class Upgradeonlinetest(Test):
         self.ubbdd_timeout = self.params.get("ubbdd_timeout")
         self.ubbd_dev = self.params.get('ubbd_dev', default=None)
         self.ubbd_tests_dir = self.params.get("UBBD_TESTS_DIR")
+        self.fio_size = self.params.get("fio_size")
 
         os.chdir(self.ubbd_tests_dir)
         if self.ubbdd_timeout:
@@ -34,6 +35,9 @@ class Upgradeonlinetest(Test):
 
     def test(self):
         cmd = str("fio --name test --rw randwrite --bs 4K --ioengine libaio --filename %s  --direct 1 --numjobs 1 --iodepth 128  --verify md5 --group_reporting --eta-newline 1" % (self.ubbd_dev))
+
+        if (self.fio_size):
+            cmd = str("%s --size %s" % (self.fio_size))
 
         result = process.run(cmd)
         if (result.exit_status):

@@ -3,7 +3,7 @@ ubbd_dir: "UBBD_DIR_DEFAULT"
 ubbd_tests_dir: "UBBD_TESTS_DIR_DEFAULT"
 scratch_mnt: 'SCRATCH_MNT_DEFAULT'
 test_mnt: 'TEST_MNT_DEFAULT'
-test_set: '-g quick'
+test_set: 'generic/001'
 ubbdd_timeout: !mux
         no_timeout:
                 ubbdd_timeout: 0
