@@ -89,8 +89,8 @@ prepare_ubbd_devs ()
 
 	# map ubbd0 and ubbd1 for xfstests
 	cd $UBBD_DIR
-	map_dev file $((10*1024*1024*1024)) "--filepath /dev/ram0p2"
-	map_dev file $((10*1024*1024*1024)) "--filepath /dev/ram0p3"
+	map_dev file $((10*1024*1024*1024)) "--file-filepath /dev/ram0p2"
+	map_dev file $((10*1024*1024*1024)) "--file-filepath /dev/ram0p3"
 	map_dev null $((10*1024*1024*1024))
 	mkfs.xfs -f /dev/ubbd0
 }

@@ -1,6 +1,8 @@
 memleak=$1
 downtime=$2
 
+systemctl stop ubbdd
+
 while true; do
 	if [ $memleak -eq 1 ]; then
 		memleak-bpfcc -c "./ubbdd/ubbdd" >> /var/log/memleak.log
