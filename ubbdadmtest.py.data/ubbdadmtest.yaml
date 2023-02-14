@@ -22,6 +22,15 @@ ubbd_map_type: !mux
                 fio_iodepth: 1
                 fio_numjobs: 1
                 start_fio: false
+        rbd:
+                ubbd_map_type: "rbd"
+                rbd_pool: "RBD_POOL_DEFAULT"
+                rbd_ns: "RBD_NS_DEFAULT"
+                rbd_image: "RBD_IMAGE_DEFAULT"
+                rbd_snap: "RBD_SNAP_DEFAULT"
+                rbd_ceph_conf: "RBD_CEPH_CONF_DEFAULT"
+                rbd_user_name: "RBD_USER_NAME_DEFAULT"
+                rbd_cluster_name: "RBD_CLUSTER_NAME_DEFAULT"
 
 ubbd_daemon_timeout: !mux
         no_timeout:

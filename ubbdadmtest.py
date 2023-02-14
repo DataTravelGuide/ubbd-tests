@@ -38,6 +38,14 @@ class Ubbdadmtest(Test):
         self.fio_numjobs = self.params.get("fio_numjobs")
         self.start_fio = self.params.get("start_fio")
 
+        self.rbd_pool = self.params.get("rbd_pool")
+        self.rbd_ns = self.params.get("rbd_ns")
+        self.rbd_image = self.params.get("rbd_image")
+        self.rbd_snap = self.params.get("rbd_snap")
+        self.rbd_ceph_conf = self.params.get("rbd_ceph_conf")
+        self.rbd_user_name = self.params.get("rbd_user_name")
+        self.rbd_cluster_name = self.params.get("rbd_cluster_name")
+
         os.chdir(self.ubbd_dir)
         if self.ubbdd_timeout:
             self.start_ubbdd_killer()
@@ -106,6 +114,8 @@ class Ubbdadmtest(Test):
             cmd = str("%s/ubbdadm/ubbdadm --command map --type file --file-filepath %s --devsize %s" % (self.ubbd_dir, self.ubbd_backend_file, self.ubbd_backend_file_size))
         elif (self.map_type == "s3"):
             cmd = str("%s/ubbdadm/ubbdadm --command map --type s3 --s3-accessid \"%s\" --s3-accesskey \"%s\" --s3-hostname \"%s\" --s3-port %s --s3-volume-name \"%s\" --devsize $((1024*1024*1024)) --s3-block-size $((4*1024)) --s3-bucket-name \"%s\"" % (self.ubbd_dir, self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_bucket_name))
+        elif (self.map_type == "rbd"):
+            cmd = str("%s/ubbdadm/ubbdadm --command map --type rbd --rbd-pool %s --rbd-ns \"%s\" --rbd-image %s --rbd-snap \"%s\" --rbd-ceph-conf %s --rbd-user-name %s --rbd-cluster-name %s" % (self.ubbd_dir, self.rbd_pool, self.rbd_ns, self.rbd_image, self.rbd_snap, self.rbd_ceph_conf, self.rbd_user_name, self.rbd_cluster_name))
 
         result = process.run(cmd, ignore_status=True, shell=True)
         if result.exit_status:

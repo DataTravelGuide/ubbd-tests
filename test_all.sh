@@ -92,6 +92,14 @@ replace_option ubbdadmtest.py.data/ubbdadmtest${SUFFIX}.yaml S3_HOSTNAME ${UBBD_
 replace_option ubbdadmtest.py.data/ubbdadmtest${SUFFIX}.yaml S3_PORT ${UBBD_S3_PORT}
 replace_option ubbdadmtest.py.data/ubbdadmtest${SUFFIX}.yaml S3_BUCKET_NAME ${UBBD_BUCKET_NAME}
 
+replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_POOL_DEFAULT ${RBD_POOL}
+replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_NS_DEFAULT ${RBD_NS}
+replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_IMAGE_DEFAULT ${RBD_IMAGE}
+replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_SNAP_DEFAULT ${RBD_SNAP}
+replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_CEPH_CONF_DEFAULT ${RBD_CEPH_CONF}
+replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_USER_NAME_DEFAULT ${RBD_USER_NAME}
+replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_CLUSTER_NAME_DEFAULT ${RBD_CLUSTER_NAME}
+
 avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest${SUFFIX}.yaml
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
