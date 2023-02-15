@@ -57,7 +57,8 @@ replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_DEV_SI
 
 avocado run --nrunner-max-parallel-tasks 1  cachebackendtest.py -m cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml
 if [ $? != 0 ]; then
-	exit -1
+	print_avocado_debug_log
+	exit 1
 fi
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
@@ -105,7 +106,8 @@ replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_CLUSTER_NAME_DE
 
 avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest${SUFFIX}.yaml
 if [ $? != 0 ]; then
-	exit -1
+	print_avocado_debug_log
+	exit 1
 fi
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
@@ -165,8 +167,9 @@ replace_option upgradeonline.py.data/upgradeonline${SUFFIX}.yaml UBBD_TESTS_DIR_
 replace_option upgradeonline.py.data/upgradeonline${SUFFIX}.yaml UBBD_DEV_DEFAULT /dev/ubbd0
 
 ./all_test${SUFFIX}.py
-if [ $? != 0 && $1 = "quick" ]; then
-	exit -1
+if [ $? != 0 ] && [ $1 = "quick" ]; then
+	print_avocado_debug_log
+	exit 1
 fi
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then

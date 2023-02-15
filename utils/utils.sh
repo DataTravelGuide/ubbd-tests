@@ -1,5 +1,15 @@
 #!/bin/sh
 
+
+print_avocado_debug_log ()
+{
+	files=`ls /root/avocado/job-results/latest/test-results/*/debug.log`
+	for file in $files; do
+		echo $file
+		cat $file
+	done
+}
+
 wait_for_ubbdd ()
 {
 	while true ; do
