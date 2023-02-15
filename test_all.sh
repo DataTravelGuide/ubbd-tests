@@ -28,7 +28,7 @@ apt install -y bpfcc-tools fio
 pip install avocado-framework==96.0 avocado-framework-plugin-varianter-yaml-to-mux==96.0 avocado-framework-plugin-result-html==96.0
 
 # enable request stats
-replace_option $UBBD_KERNEL_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
+replace_option $UBBD_KERNEL_DIR/ubbd-headers/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
 replace_option $UBBD_KERNEL_DIR/ubbd_internal.h "\#define UBBD_FAULT_INJECT" "\#undef UBBD_FAULT_INJECT"
 
 # 1. cache backend test
@@ -56,6 +56,9 @@ replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_BUCKET
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_DEV_SIZE_DEFAULT 31457280
 
 avocado run --nrunner-max-parallel-tasks 1  cachebackendtest.py -m cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml
+if [ $? != 0 ]; then
+	exit -1
+fi
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
 	${UBBD_TESTS_POST_TEST_CMDS}
@@ -101,6 +104,9 @@ replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_USER_NAME_DEFAU
 replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_CLUSTER_NAME_DEFAULT ${RBD_CLUSTER_NAME}
 
 avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest${SUFFIX}.yaml
+if [ $? != 0 ]; then
+	exit -1
+fi
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
 	${UBBD_TESTS_POST_TEST_CMDS}
@@ -122,7 +128,9 @@ cleanup
 # 3. start other tests without memleak
 
 cd ${UBBD_DIR}
-replace_option $UBBD_KERNEL_DIR/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
+if [ "$1" != "quick" ]; then
+	replace_option $UBBD_KERNEL_DIR/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
+fi
 
 setup
 
@@ -157,6 +165,9 @@ replace_option upgradeonline.py.data/upgradeonline${SUFFIX}.yaml UBBD_TESTS_DIR_
 replace_option upgradeonline.py.data/upgradeonline${SUFFIX}.yaml UBBD_DEV_DEFAULT /dev/ubbd0
 
 ./all_test${SUFFIX}.py
+if [ $? != 0 && $1 = "quick" ]; then
+	exit -1
+fi
 
 if [ ! -z "$UBBD_TESTS_POST_TEST_CMDS" ]; then
 	${UBBD_TESTS_POST_TEST_CMDS}
