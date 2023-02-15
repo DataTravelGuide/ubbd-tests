@@ -15,11 +15,15 @@ setup ()
 {
 	# build and insmod ubbd
 	cd $UBBD_KERNEL_DIR
-	make mod
+	if [ "$1" != "skip-make" ]; then
+		make mod
+	fi
 	make install
 	sleep 1
 	cd $UBBD_DIR
-	make
+	if [ "$1" != "skip-make" ]; then
+		make
+	fi
 	make install
 	sleep 1
 

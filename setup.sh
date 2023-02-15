@@ -18,6 +18,6 @@ fi
 replace_option $UBBD_DIR/include/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
 
 # build and insmod ubbd
-setup
+setup $1
 
 prepare_ubbd_devs
