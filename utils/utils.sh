@@ -8,6 +8,12 @@ print_avocado_debug_log ()
 		echo $file
 		cat $file
 	done
+
+	files=`ls /var/log/ubbd/*`
+	for file in $files; do
+		echo $file
+		cat $file
+	done
 }
 
 wait_for_ubbdd ()
