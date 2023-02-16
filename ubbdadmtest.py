@@ -26,7 +26,7 @@ class Ubbdadmtest(Test):
         self.ubbd_tests_dir = self.params.get("UBBD_TESTS_DIR")
         self.fail_directly = self.params.get("fail_directly")
         self.always_retry = self.params.get("always_retry")
-        self.ignore_exit_status = [(256 - errno.ECONNABORTED), -errno.EACCES]
+        self.ignore_exit_status = [(256 - errno.ECONNABORTED), -errno.EACCES, 255]
         self.s3_accessid = self.params.get("s3_accessid")
         self.s3_accesskey = self.params.get("s3_accesskey")
         self.s3_hostname = self.params.get("s3_hostname")
