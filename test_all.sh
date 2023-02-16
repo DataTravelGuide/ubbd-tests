@@ -1,6 +1,9 @@
 #!/bin/sh
+set -x
 
 date_str=`date "+%Y_%m_%d_%H_%M_%S"`
+
+DRY_RUN=0
 
 SUFFIX=""
 if [ "$1" = "quick" ]; then
@@ -8,6 +11,11 @@ if [ "$1" = "quick" ]; then
 	echo "quick ubbd test."
 else
 	echo "full ubbd test."
+fi
+
+if [ "$2" = "dryrun" ]; then
+	DRY_RUN=1
+	echo "dryrun....."
 fi
 
 cat ./local_conf
@@ -55,7 +63,10 @@ replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_PORT $
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_BUCKET_NAME ${UBBD_BUCKET_NAME}
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_DEV_SIZE_DEFAULT 31457280
 
-avocado run --nrunner-max-parallel-tasks 1  cachebackendtest.py -m cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml
+if [ ${DRY_RUN} -eq 0 ]; then
+	avocado run --nrunner-max-parallel-tasks 1  cachebackendtest.py -m cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml
+fi
+
 if [ $? != 0 ]; then
 	print_avocado_debug_log
 	exit 1
@@ -104,7 +115,10 @@ replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_CEPH_CONF_DEFAU
 replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_USER_NAME_DEFAULT ${RBD_USER_NAME}
 replace_option ubbdadmtest.py.data/ubbdadmtest${suffix}.yaml RBD_CLUSTER_NAME_DEFAULT ${RBD_CLUSTER_NAME}
 
-avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest${SUFFIX}.yaml
+if [ ${DRY_RUN} -eq 0 ]; then
+	avocado run --nrunner-max-parallel-tasks 1  ubbdadmtest.py -m ubbdadmtest.py.data/ubbdadmtest${SUFFIX}.yaml
+fi
+
 if [ $? != 0 ]; then
 	print_avocado_debug_log
 	exit 1
@@ -166,7 +180,10 @@ replace_option fio.py.data/fio${SUFFIX}.yaml OUTPUT_FILE ${FIOTEST_OUTFILE}
 replace_option upgradeonline.py.data/upgradeonline${SUFFIX}.yaml UBBD_TESTS_DIR_DEFAULT ${UBBD_TESTS_DIR}
 replace_option upgradeonline.py.data/upgradeonline${SUFFIX}.yaml UBBD_DEV_DEFAULT /dev/ubbd0
 
-./all_test${SUFFIX}.py
+if [ ${DRY_RUN} -eq 0 ]; then
+	./all_test${SUFFIX}.py
+fi
+
 if [ $? != 0 ] && [ $1 = "quick" ]; then
 	print_avocado_debug_log
 	exit 1
