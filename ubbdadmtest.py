@@ -60,7 +60,7 @@ class Ubbdadmtest(Test):
         if not self.proc:
             return
 
-        process.kill_process_tree(self.proc.get_pid())
+        self.proc.stop(1)
         self.log.info("ubbdd killer stopped")
 
     def start_fio_process(self, ubbd_dev):
