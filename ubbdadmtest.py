@@ -86,7 +86,7 @@ class Ubbdadmtest(Test):
         return str(ubbd_dev.replace("/dev/ubbd", "")).strip()
 
     def __list_and_check(self, ubbd_dev):
-        cmd = str("%s/ubbdadm/ubbdadm --command list" % (self.ubbd_dir))
+        cmd = str("%s/ubbdadm/ubbdadm list" % (self.ubbd_dir))
         result = process.run(cmd, ignore_status=True)
         if result.exit_status:
             if self.always_retry:
@@ -111,11 +111,11 @@ class Ubbdadmtest(Test):
 
     def do_map(self):
         if (self.map_type == "file"):
-            cmd = str("%s/ubbdadm/ubbdadm --command map --type file --file-filepath %s --devsize %s" % (self.ubbd_dir, self.ubbd_backend_file, self.ubbd_backend_file_size))
+            cmd = str("%s/ubbdadm/ubbdadm map --type file --file-filepath %s --devsize %s" % (self.ubbd_dir, self.ubbd_backend_file, self.ubbd_backend_file_size))
         elif (self.map_type == "s3"):
-            cmd = str("%s/ubbdadm/ubbdadm --command map --type s3 --s3-accessid \"%s\" --s3-accesskey \"%s\" --s3-hostname \"%s\" --s3-port %s --s3-volume-name \"%s\" --devsize $((1024*1024*1024)) --s3-block-size $((4*1024)) --s3-bucket-name \"%s\"" % (self.ubbd_dir, self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_bucket_name))
+            cmd = str("%s/ubbdadm/ubbdadm map --type s3 --s3-accessid \"%s\" --s3-accesskey \"%s\" --s3-hostname \"%s\" --s3-port %s --s3-volume-name \"%s\" --devsize $((1024*1024*1024)) --s3-block-size $((4*1024)) --s3-bucket-name \"%s\"" % (self.ubbd_dir, self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_bucket_name))
         elif (self.map_type == "rbd"):
-            cmd = str("%s/ubbdadm/ubbdadm --command map --type rbd --rbd-pool %s --rbd-ns \"%s\" --rbd-image %s --rbd-snap \"%s\" --rbd-ceph-conf %s --rbd-user-name %s --rbd-cluster-name %s" % (self.ubbd_dir, self.rbd_pool, self.rbd_ns, self.rbd_image, self.rbd_snap, self.rbd_ceph_conf, self.rbd_user_name, self.rbd_cluster_name))
+            cmd = str("%s/ubbdadm/ubbdadm map --type rbd --rbd-pool %s --rbd-ns \"%s\" --rbd-image %s --rbd-snap \"%s\" --rbd-ceph-conf %s --rbd-user-name %s --rbd-cluster-name %s" % (self.ubbd_dir, self.rbd_pool, self.rbd_ns, self.rbd_image, self.rbd_snap, self.rbd_ceph_conf, self.rbd_user_name, self.rbd_cluster_name))
 
         result = process.run(cmd, ignore_status=True, shell=True)
         if result.exit_status:
@@ -140,7 +140,7 @@ class Ubbdadmtest(Test):
         return True
 
     def do_unmap(self, dev, force):
-        cmd = str("%s/ubbdadm/ubbdadm --command unmap --ubbdid %s" % (self.ubbd_dir, self.get_dev_id(dev)))
+        cmd = str("%s/ubbdadm/ubbdadm unmap --ubbdid %s" % (self.ubbd_dir, self.get_dev_id(dev)))
         if force:
             cmd = str("%s --force" % cmd)
         result = process.run(cmd, ignore_status=True)
@@ -175,7 +175,7 @@ class Ubbdadmtest(Test):
 
 
     def do_config(self, dev):
-        cmd = str("%s/ubbdadm/ubbdadm --command config --ubbdid %s --data-pages-reserve-percnt %s" % (self.ubbd_dir, self.get_dev_id(dev), self.ubbd_page_reserve))
+        cmd = str("%s/ubbdadm/ubbdadm config --ubbdid %s --data-pages-reserve-percnt %s" % (self.ubbd_dir, self.get_dev_id(dev), self.ubbd_page_reserve))
         result = process.run(cmd, ignore_status=True)
         self.log.info("config result: %s" % (result))
         if (result.exit_status):
@@ -194,7 +194,7 @@ class Ubbdadmtest(Test):
             time.sleep(1)
 
     def do_req_stats(self, dev):
-        cmd = str("%s/ubbdadm/ubbdadm --command req-stats --ubbdid %s" % (self.ubbd_dir, self.get_dev_id(dev)))
+        cmd = str("%s/ubbdadm/ubbdadm req-stats --ubbdid %s" % (self.ubbd_dir, self.get_dev_id(dev)))
         result = process.run(cmd, ignore_status=True)
         self.log.info("req-stats result: %s" % (result))
         if (result.exit_status):
@@ -213,7 +213,7 @@ class Ubbdadmtest(Test):
             time.sleep(1)
 
     def do_dev_restart(self, dev):
-        cmd = str("%s/ubbdadm/ubbdadm --command dev-restart --ubbdid %s --restart-mode queue" % (self.ubbd_dir, self.get_dev_id(dev)))
+        cmd = str("%s/ubbdadm/ubbdadm dev-restart --ubbdid %s --restart-mode queue" % (self.ubbd_dir, self.get_dev_id(dev)))
         result = process.run(cmd, ignore_status=True)
         self.log.info("dev-restart result: %s" % (result))
         if (result.exit_status):

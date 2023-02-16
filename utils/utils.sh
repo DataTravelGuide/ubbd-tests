@@ -19,7 +19,7 @@ print_avocado_debug_log ()
 wait_for_ubbdd ()
 {
 	while true ; do
-		./ubbdadm/ubbdadm --command list
+		./ubbdadm/ubbdadm list
 		if [ $? -eq 0 ]; then
 			return
 		fi
@@ -83,7 +83,7 @@ map_dev ()
 	opts=$3
 
 	while true; do
-		${UBBD_DIR}/ubbdadm/ubbdadm --command map --type $type --devsize $devsize $opts
+		${UBBD_DIR}/ubbdadm/ubbdadm map --type $type --devsize $devsize $opts
 		if [ $? -eq 0 ]; then
 			break
 		fi
@@ -96,7 +96,7 @@ unmap_dev ()
 	ubbdid=$1
 
 	while true; do
-		${UBBD_DIR}/ubbdadm/ubbdadm --command unmap --force --ubbdid $ubbdid
+		${UBBD_DIR}/ubbdadm/ubbdadm unmap --force --ubbdid $ubbdid
 		if [ $? -eq 0 ]; then
 			break
 		fi

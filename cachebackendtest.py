@@ -47,7 +47,7 @@ class CacheBackendtest(Test):
             pass
 
     def setup_dev(self, init):
-        cmd = str("ubbdadm --command map --type cache --cache-mode %s --devsize %s " % (self.ubbd_cache_mode, self.ubbd_dev_size))
+        cmd = str("ubbdadm map --type cache --cache-mode %s --devsize %s " % (self.ubbd_cache_mode, self.ubbd_dev_size))
 
         if (self.ubbd_cache_type == "file"):
             cmd = str("%s --cache-dev-type file --cache-dev-file-filepath %s --cache-dev-devsize %s " % (cmd, self.ubbd_cache_file, self.ubbd_cache_file_size))
@@ -85,7 +85,7 @@ class CacheBackendtest(Test):
         return str(ubbd_dev.replace("/dev/ubbd", "")).strip()
 
     def destroy_dev(self, detach):
-        cmd = str("umount %s; ubbdadm --comman unmap --ubbdid %s" % (self.ubbd_dev, self.get_dev_id(self.ubbd_dev)))
+        cmd = str("umount %s; ubbdadm unmap --ubbdid %s" % (self.ubbd_dev, self.get_dev_id(self.ubbd_dev)))
 
         if (detach):
             cmd = str("%s --detach" % cmd)
@@ -98,9 +98,9 @@ class CacheBackendtest(Test):
 
     def setup_backing(self):
         if (self.ubbd_backing_type == "file"):
-            cmd = str("ubbdadm --command map --type file --devsize %s --file-filepath %s " % (self.ubbd_backing_file_size, self.ubbd_backing_file))
+            cmd = str("ubbdadm map --type file --devsize %s --file-filepath %s " % (self.ubbd_backing_file_size, self.ubbd_backing_file))
         elif (self.ubbd_backing_type == "s3"):
-            cmd = str("ubbdadm --command map --type s3 --s3-accessid %s --s3-accesskey %s --s3-hostname %s --s3-port %s --s3-volume-name %s --devsize %s --s3-bucket-name %s --s3-block-size 4096" % (self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_dev_size, self.s3_bucket_name))
+            cmd = str("ubbdadm map --type s3 --s3-accessid %s --s3-accesskey %s --s3-hostname %s --s3-port %s --s3-volume-name %s --devsize %s --s3-bucket-name %s --s3-block-size 4096" % (self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_dev_size, self.s3_bucket_name))
 
         result = process.run(cmd, shell=True)
 
