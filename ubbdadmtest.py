@@ -46,9 +46,26 @@ class Ubbdadmtest(Test):
         self.rbd_user_name = self.params.get("rbd_user_name")
         self.rbd_cluster_name = self.params.get("rbd_cluster_name")
 
+        self.wait_for_ubbdd()
+
         os.chdir(self.ubbd_dir)
         if self.ubbdd_timeout:
             self.start_ubbdd_killer()
+
+    def ubbd_list(self):
+        cmd = str("%s/ubbdadm/ubbdadm list" % (self.ubbd_dir))
+        result = process.run(cmd, ignore_status=True)
+        if result.exit_status:
+            return False
+
+        return True
+
+    def wait_for_ubbdd(self):
+        while (True):
+            if (self.ubbd_list()):
+                return
+
+            time.sleep(1)
 
     def start_ubbdd_killer(self):
         cmd = str("bash %s/utils/start_ubbdd_killer.sh %s" % (self.ubbd_tests_dir, self.ubbdd_timeout))
