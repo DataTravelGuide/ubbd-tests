@@ -32,12 +32,14 @@ setup ()
 	# build and insmod ubbd
 	cd $UBBD_KERNEL_DIR
 	if [ "$1" != "skip-make" ]; then
+		git submodule update --init --recursive
 		make mod
 	fi
 	make install
 	sleep 1
 	cd $UBBD_DIR
 	if [ "$1" != "skip-make" ]; then
+		git submodule update --init --recursive
 		make
 	fi
 	make install
