@@ -36,6 +36,8 @@ setup ()
 		make mod
 	fi
 	make install
+	depmod -a
+	modprobe ubbd
 	sleep 1
 	cd $UBBD_DIR
 	if [ "$1" != "skip-make" ]; then
@@ -43,6 +45,7 @@ setup ()
 		make
 	fi
 	make install
+	ldconfig
 	sleep 1
 
 	# prepare ramdisk for testing.
