@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -x
 
 date_str=`date "+%Y_%m_%d_%H_%M_%S"`

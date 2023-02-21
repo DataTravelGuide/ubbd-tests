@@ -31,7 +31,7 @@ class Xfstests(Test):
 
     def do_config(self, dev):
         os.chdir(self.ubbd_dir)
-        cmd = str("%s/ubbdadm/ubbdadm config --ubbdid %s --data-pages-reserve-percnt 0" % (self.ubbd_dir, dev))
+        cmd = str("ubbdadm config --ubbdid %s --data-pages-reserve-percnt 0" % (dev))
         result = process.run(cmd, ignore_status=True)
         self.log.info("config result: %s" % (result))
         return (result.exit_status == 0)
