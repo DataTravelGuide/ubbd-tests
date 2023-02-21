@@ -27,25 +27,33 @@ wait_for_ubbdd ()
 	done
 }
 
+build_and_install_ubbd_kernel ()
+{
+	apt purge -y ubbd-kernel ubbd-kernel-dbg
+	sh -x build_deb.sh
+	DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd-kernel_*.deb
+}
+
+build_and_install_ubbd ()
+{
+	apt purge -y ubbd ubbd-dev ubbd-dbg
+	dpkg --purge ubbd
+	sh -x build_deb.sh
+	DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd_*.deb
+}
+
 setup ()
 {
 	# build and insmod ubbd
 	cd $UBBD_KERNEL_DIR
 	if [ "$1" != "skip-make" ]; then
-		git submodule update --init --recursive
-		make mod
+		build_and_install_ubbd_kernel
 	fi
-	make install
-	depmod -a
-	modprobe ubbd
 	sleep 1
 	cd $UBBD_DIR
 	if [ "$1" != "skip-make" ]; then
-		git submodule update --init --recursive
-		make
+		build_and_install_ubbd
 	fi
-	make install
-	ldconfig
 	sleep 1
 
 	# prepare ramdisk for testing.
