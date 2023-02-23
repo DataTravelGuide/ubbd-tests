@@ -41,16 +41,12 @@ ubbd_data_size: !mux
                 ubbd_data_size: 4096
         8K:
                 ubbd_data_size: 8192
-        16K:
-                ubbd_data_size: 16384
         32K:
                 ubbd_data_size: 32768
         64K:
                 ubbd_data_size: 65536
         128K:
                 ubbd_data_size: 131072
-        256K:
-                ubbd_data_size: 262144 
         512K:
                 ubbd_data_size: 524288
         1M:
@@ -62,29 +58,7 @@ ubbd_data_size_extra: !mux
                 ubbd_data_size_extra: 0
         1b:
                 ubbd_data_size_extra: 1
-        10b:
-                ubbd_data_size_extra: 10
         1K:
                 ubbd_data_size_extra: 1024
         2K:
                 ubbd_data_size_extra: 2048
-        4K:
-                ubbd_data_size_extra: 4096
-        8K:
-                ubbd_data_size_extra: 8192
-        16K:
-                ubbd_data_size_extra: 16384
-        32K:
-                ubbd_data_size_extra: 32768
-        64K:
-                ubbd_data_size_extra: 65536
-        128K:
-                ubbd_data_size_extra: 131072
-        256K:
-                ubbd_data_size_extra: 262144 
-        512K:
-                ubbd_data_size_extra: 524288
-        1M:
-                ubbd_data_size_extra: 1048576
-        4M:
-                ubbd_data_size_extra: 4194304
