@@ -27,6 +27,7 @@ rw: !mux
 bs: !mux
         4K:
                 block_size: "4K"
+        1M:
                 block_size: "1M"
 
 iodepth: !mux
