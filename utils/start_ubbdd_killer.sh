@@ -14,8 +14,8 @@ wait_for_ubbdd ()
 sleep_time=$1
 
 while true; do
-	pkill ubbd-backend
-	pkill ubbdd
+	pkill -9 ubbd-backend
+	pkill -9 ubbdd
 	ps -ef|grep ubbdd|grep memleak|gawk '{print "kill "$2}'|bash
 
 	wait_for_ubbdd
