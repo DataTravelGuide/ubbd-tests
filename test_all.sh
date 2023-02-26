@@ -52,7 +52,7 @@ pip install avocado-framework==96.0 avocado-framework-plugin-varianter-yaml-to-m
 
 # enable request stats
 replace_option $UBBD_KERNEL_DIR/ubbd-headers/ubbd.h "\#undef UBBD_REQUEST_STATS" "\#define UBBD_REQUEST_STATS"
-replace_option $UBBD_KERNEL_DIR/ubbd_internal.h "\#define UBBD_FAULT_INJECT" "\#undef UBBD_FAULT_INJECT"
+replace_option $UBBD_KERNEL_DIR/src/ubbd_internal.h "\#define UBBD_FAULT_INJECT" "\#undef UBBD_FAULT_INJECT"
 
 # 1. cache backend test
 
@@ -160,7 +160,7 @@ cleanup
 
 cd ${UBBD_DIR}
 if [ "$1" != "quick" ]; then
-	replace_option $UBBD_KERNEL_DIR/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
+	replace_option $UBBD_KERNEL_DIR/src/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
 fi
 
 setup
