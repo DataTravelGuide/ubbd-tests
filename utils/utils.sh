@@ -33,13 +33,13 @@ build_and_install_ubbd_kernel ()
 	case "$ID" in
 	debian|ubuntu|devuan|elementary|softiron)
 		apt purge -y ubbd-kernel ubbd-kernel-dbg
-		sh -x build_deb.sh
+		bash -x build_deb.sh
 		DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd-kernel_*.deb
 		;;
 	rocky|centos|fedora|rhel|ol|virtuozzo)
 		rpm -qa|grep ubbd|gawk '{print "yum erase -y "$1}'|bash
 		rm -rf /root/rpmbuild/RPMS/x86_64/ubbd*
-		sh -x build_rpm.sh
+		bash -x build_rpm.sh
 		yum install -y /root/rpmbuild/RPMS/x86_64/ubbd-kernel*.rpm
 		;;
 	*)
@@ -56,13 +56,13 @@ build_and_install_ubbd ()
 	debian|ubuntu|devuan|elementary|softiron)
 		apt purge -y ubbd ubbd-dev ubbd-dbg
 		dpkg --purge ubbd
-		sh -x build_deb.sh
+		bash -x build_deb.sh
 		DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd_*.deb
 		;;
 	rocky|centos|fedora|rhel|ol|virtuozzo)
 		yum erase -y ubbd ubbd-devel ubbd-debuginfo
 		rm -rf /root/rpmbuild/RPMS/x86_64/ubbd*
-		sh -x build_rpm.sh
+		bash -x build_rpm.sh
 		yum install -y /root/rpmbuild/RPMS/x86_64/ubbd*.rpm
 		;;
 	*)
@@ -115,7 +115,7 @@ prepare_ubbdd ()
 	kill_ubbdd
 	modprobe ubbd
 
-	sh -x $UBBD_TESTS_DIR/utils/start_ubbdd.sh $memleak 1 &
+	bash -x $UBBD_TESTS_DIR/utils/start_ubbdd.sh $memleak 1 &
 	wait_for_ubbdd
 }
 
