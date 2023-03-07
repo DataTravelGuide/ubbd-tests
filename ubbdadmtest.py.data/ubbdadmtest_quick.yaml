@@ -1,5 +1,5 @@
-UBBD_DIR: "UBBD_DIR_DEFAULT"
-UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
+UBBD_DIR: "/data/ubbd"
+UBBD_TESTS_DIR: "/data/ubbd-tests"
 VALGRIND: 0
 ubbdadm_action_num: 50
 always_retry: false
@@ -11,6 +11,9 @@ ubbd_map_type: !mux
                 fio_iodepth: 128
                 fio_numjobs: 16
                 start_fio: true
+        mem:
+                ubbd_map_type: "mem"
+                mem_devsize: 1073741824
 
 ubbd_daemon_timeout: !mux
         no_timeout:

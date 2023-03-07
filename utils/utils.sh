@@ -157,6 +157,9 @@ prepare_ubbd_devs ()
 	map_dev file $((10*1024*1024*1024)) "--file-filepath /dev/ram0p3"
 	map_dev null $((10*1024*1024*1024))
 	mkfs.xfs -f /dev/ubbd0
+	map_dev mem $((10*1024*1024*1024))
+	map_dev mem $((10*1024*1024*1024))
+	mkfs.xfs -f /dev/ubbd3
 }
 
 unmap_ubbd_devs ()

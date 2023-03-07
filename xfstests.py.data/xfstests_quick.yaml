@@ -13,5 +13,11 @@ fs_type: !mux
                 # Exclude only if test_range not provided
                 exclude: 'null'
 disk_type: !mux
-        disk_test: 'TEST_DEV_DEFAULT'
-        disk_scratch: 'SCRATCH_DEV_DEFAULT'
+        file:
+                disk_type: "file"
+                disk_test: 'TEST_FILE_DEV_DEFAULT'
+                disk_scratch: 'SCRATCH_FILE_DEV_DEFAULT'
+        mem:
+                disk_type: "mem"
+                disk_test: 'TEST_MEM_DEV_DEFAULT'
+                disk_scratch: 'SCRATCH_MEM_DEV_DEFAULT'

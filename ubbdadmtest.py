@@ -46,6 +46,8 @@ class Ubbdadmtest(Test):
         self.rbd_user_name = self.params.get("rbd_user_name")
         self.rbd_cluster_name = self.params.get("rbd_cluster_name")
 
+        self.mem_devsize = self.params.get("mem_devsize")
+
         self.wait_for_ubbdd()
 
         os.chdir(self.ubbd_dir)
@@ -133,6 +135,8 @@ class Ubbdadmtest(Test):
             cmd = str("ubbdadm map --type s3 --s3-accessid \"%s\" --s3-accesskey \"%s\" --s3-hostname \"%s\" --s3-port %s --s3-volume-name \"%s\" --devsize $((1024*1024*1024)) --s3-block-size $((4*1024)) --s3-bucket-name \"%s\"" % (self.s3_accessid, self.s3_accesskey, self.s3_hostname, self.s3_port, self.s3_volume_name, self.s3_bucket_name))
         elif (self.map_type == "rbd"):
             cmd = str("ubbdadm map --type rbd --rbd-pool %s --rbd-ns \"%s\" --rbd-image %s --rbd-snap \"%s\" --rbd-ceph-conf %s --rbd-user-name %s --rbd-cluster-name %s" % (self.rbd_pool, self.rbd_ns, self.rbd_image, self.rbd_snap, self.rbd_ceph_conf, self.rbd_user_name, self.rbd_cluster_name))
+        elif (self.map_type == "mem"):
+            cmd = str("ubbdadm map --type mem --devsize %s" % (self.mem_devsize))
 
         result = process.run(cmd, ignore_status=True, shell=True)
         if result.exit_status:
@@ -271,6 +275,9 @@ class Ubbdadmtest(Test):
                 self.dev_restart(self.ubbd_dev_list[0])
 
     def test(self):
+        if (self.map_type == "mem" and self.ubbdd_timeout):
+            return
+
         for i in range(0, self.ubbdadm_action_num):
             self.do_ubbd_action()
 

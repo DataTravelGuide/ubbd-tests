@@ -45,6 +45,7 @@ class Xfstests(Test):
             'scratch_mnt', default='/mnt/scratch')
         self.test_mnt = self.params.get('test_mnt', default='/mnt/test')
         self.fs_to_test = self.params.get('fs', default='ext4')
+        self.disk_type = self.params.get('disk_type')
 
         if process.system('which mkfs.%s' % self.fs_to_test,
                           ignore_status=True):
@@ -111,6 +112,8 @@ class Xfstests(Test):
             self.start_ubbdd_killer()
 
     def test(self):
+        if (self.disk_type == "mem" and self.ubbdd_timeout):
+            return
         failures = False
         os.chdir(self.xfstests_dir)
 
