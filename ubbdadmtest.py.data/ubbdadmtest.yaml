@@ -31,6 +31,10 @@ ubbd_map_type: !mux
                 rbd_ceph_conf: "RBD_CEPH_CONF_DEFAULT"
                 rbd_user_name: "RBD_USER_NAME_DEFAULT"
                 rbd_cluster_name: "RBD_CLUSTER_NAME_DEFAULT"
+        mem:
+                ubbd_map_type: "mem"
+                mem_devsize: 1073741824
+
 
 ubbd_daemon_timeout: !mux
         no_timeout:
