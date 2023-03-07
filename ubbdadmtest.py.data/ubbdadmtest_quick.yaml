@@ -1,5 +1,5 @@
-UBBD_DIR: "/data/ubbd"
-UBBD_TESTS_DIR: "/data/ubbd-tests"
+UBBD_DIR: "UBBD_DIR_DEFAULT"
+UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
 VALGRIND: 0
 ubbdadm_action_num: 50
 always_retry: false
