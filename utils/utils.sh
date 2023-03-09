@@ -14,6 +14,8 @@ print_avocado_debug_log ()
 		echo $file
 		cat $file
 	done
+
+	dmesg
 }
 
 wait_for_ubbdd ()
