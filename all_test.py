@@ -25,12 +25,17 @@ upgradeonline_config = {'resolver.references': ['upgradeonline.py:Upgradeonlinet
           'nrunner.max_parallel_tasks': 1,
           'run.dry_run.enabled': False}
 
+rbd_config = {'resolver.references': ['./rbdtest.sh'],
+          'nrunner.max_parallel_tasks': 1,
+          'run.dry_run.enabled': False}
+
 test_suites = []
 
 test_suites.append(TestSuite.from_config(upgradeonline_config, name='upgradeonline'))
 test_suites.append(TestSuite.from_config(ubbdadmtest_config, name='ubbdadmtest'))
 test_suites.append(TestSuite.from_config(xfstests_config, name='xfstests'))
 test_suites.append(TestSuite.from_config(fio_config, name='fio'))
+test_suites.append(TestSuite.from_config(rbd_config, name='rbd'))
 
 with Job(test_suites=test_suites) as j:
     sys.exit(j.run())
