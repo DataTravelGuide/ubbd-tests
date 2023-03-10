@@ -85,7 +85,7 @@ class CacheBackendtest(Test):
         return str(ubbd_dev.replace("/dev/ubbd", "")).strip()
 
     def destroy_dev(self, detach):
-        cmd = str("umount %s; ubbdadm unmap --ubbdid %s" % (self.ubbd_dev, self.get_dev_id(self.ubbd_dev)))
+        cmd = str("umount %s;sync; sleep 1; ubbdadm unmap --ubbdid %s" % (self.ubbd_dev, self.get_dev_id(self.ubbd_dev)))
 
         if (detach):
             cmd = str("%s --detach" % cmd)
