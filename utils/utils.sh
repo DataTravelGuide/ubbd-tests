@@ -35,6 +35,7 @@ build_and_install_ubbd_kernel ()
 	case "$ID" in
 	debian|ubuntu|devuan|elementary|softiron)
 		apt purge -y ubbd-kernel ubbd-kernel-dbg
+		rm -rf ../ubbd*.deb
 		bash -x build_deb.sh
 		DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd-kernel_*.deb
 		;;
@@ -167,7 +168,7 @@ prepare_ubbd_devs ()
 unmap_ubbd_devs ()
 {
 	cd $UBBD_DIR
-	for i in `ls /dev/ubbd*`; do
+	for i in `ls /dev/ubbd[0-9]*`; do
 		id=$(echo "${i}" | sed "s/\/dev\/ubbd//g")
 		unmap_dev $id
 	done
