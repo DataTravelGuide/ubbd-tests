@@ -34,7 +34,8 @@ build_and_install_ubbd_kernel ()
 	source /etc/os-release
 	case "$ID" in
 	debian|ubuntu|devuan|elementary|softiron)
-		apt purge -y ubbd-kernel ubbd-kernel-dbg
+		apt purge -y ubbd-kernel
+		apt purge -y ubbd-kernel-dbg
 		rm -rf ../ubbd*.deb
 		bash -x build_deb.sh
 		DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd-kernel_*.deb
@@ -107,6 +108,7 @@ kill_ubbdd ()
 	ps -ef|grep memleak|grep ubbdd|gawk '{print "kill "$2}'|bash
 	pkill -9 ubbd-backend
 	pkill -9 ubbdd
+	systemctl stop ubbdd
 }
 
 prepare_ubbdd ()
