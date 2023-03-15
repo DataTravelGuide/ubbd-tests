@@ -175,6 +175,16 @@ _sudo dd if=${DEV} of=/dev/null bs=1M
 expect_false _sudo dd if=${DATA} of=${DEV} bs=1M oflag=direct
 unmap_device ${DEV}
 
+# exclusive option test
+DEV=`_sudo rbd --device-type ubbd map --exclusive ${POOL}/${IMAGE}`
+
+_sudo dd if=${DATA} of=${DEV} bs=1M oflag=direct
+expect_false timeout 10 \
+	rbd bench ${IMAGE} --io-type write --io-size=1024 --io-total=1024
+unmap_device ${DEV} ${PID}
+DEV=
+rbd bench ${IMAGE} --io-type write --io-size=1024 --io-total=1024
+
 # map/unmap snap test
 rbd snap create ${POOL}/${IMAGE}@snap
 DEV=`_sudo rbd device --device-type ubbd map ${POOL}/${IMAGE}@snap`
@@ -222,6 +232,49 @@ DEV=
 # reset
 rbd config global rm global rbd_default_pool
 
+# quiesce test
+QUIESCE_HOOK=${TEMPDIR}/quiesce.sh
+DEV=`_sudo rbd device --device-type ubbd map --quiesce --quiesce-hook ${QUIESCE_HOOK} ${POOL}/${IMAGE}`
+
+# test it fails if the hook does not exists
+test ! -e ${QUIESCE_HOOK}
+expect_false rbd snap create ${POOL}/${IMAGE}@quiesce1
+_sudo dd if=${DATA} of=${DEV} bs=1M count=1 oflag=direct
+
+# test the hook is executed
+touch ${QUIESCE_HOOK}
+chmod +x ${QUIESCE_HOOK}
+cat > ${QUIESCE_HOOK} <<EOF
+#/bin/sh
+echo "test the hook is executed" >&2
+echo \$1 > ${TEMPDIR}/\$2
+EOF
+rbd snap create ${POOL}/${IMAGE}@quiesce1
+_sudo dd if=${DATA} of=${DEV} bs=1M count=1 oflag=direct
+test "$(cat ${TEMPDIR}/quiesce)" = ${DEV}
+test "$(cat ${TEMPDIR}/unquiesce)" = ${DEV}
+
+# test snap create fails if the hook fails
+touch ${QUIESCE_HOOK}
+chmod +x ${QUIESCE_HOOK}
+cat > ${QUIESCE_HOOK} <<EOF
+#/bin/sh
+echo "test snap create fails if the hook fails" >&2
+exit 22
+EOF
+expect_false rbd snap create ${POOL}/${IMAGE}@quiesce2
+_sudo dd if=${DATA} of=${DEV} bs=1M count=1 oflag=direct
+
+# test the hook is slow
+cat > ${QUIESCE_HOOK} <<EOF
+#/bin/sh
+echo "test the hook is slow" >&2
+sleep 7
+EOF
+rbd snap create ${POOL}/${IMAGE}@quiesce2
+_sudo dd if=${DATA} of=${DEV} bs=1M count=1 oflag=direct
+unmap_device ${DEV}
+
 # map and check dev link
 DEV=`_sudo rbd device --device-type ubbd map ${POOL}/${IMAGE}`
 LINK_DEV=`readlink /dev/ubbd/rbd/${POOL}/${IMAGE}/*`
@@ -248,7 +301,7 @@ DEV_ID1=${DEV1//\/dev\/ubbd/}
 LINK_DEV1=`readlink /dev/ubbd/rbd/${POOL}/${IMAGE}/${DEV_ID1}`
 [ ${DEV1} = ${LINK_DEV1} ]
 
-unmap_device ${DEV} 
-unmap_device ${DEV1} 
+unmap_device ${DEV}
+unmap_device ${DEV1}
 
 echo OK
