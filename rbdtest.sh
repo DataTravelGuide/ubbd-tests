@@ -110,6 +110,7 @@ unmap_device()
 {
     local dev=$1
 
+    sleep 0.5
     _sudo rbd device --device-type ubbd unmap ${dev}
     rbd device --device-type ubbd list | expect_false grep "^${dev}" || return 1
 }
