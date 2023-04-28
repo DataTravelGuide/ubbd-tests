@@ -60,13 +60,13 @@ build_and_install_ubbd ()
 	debian|ubuntu|devuan|elementary|softiron)
 		apt purge -y ubbd ubbd-dev ubbd-dbg
 		dpkg --purge ubbd
-		bash -x build_deb.sh
+		UBBD_CONFIG_ARGS="--enable-s3-backend --enable-rbd-backend --enable-s3-backend --enable-cache-backend --enable-ssh-backend" bash -x build_deb.sh
 		DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd_*.deb
 		;;
 	rocky|centos|fedora|rhel|ol|virtuozzo)
 		yum erase -y ubbd ubbd-devel ubbd-debuginfo
 		rm -rf /root/rpmbuild/RPMS/x86_64/ubbd*
-		bash -x build_rpm.sh
+		UBBD_CONFIG_ARGS="--enable-s3-backend --enable-rbd-backend --enable-s3-backend --enable-cache-backend --enable-ssh-backend" bash -x build_rpm.sh
 		yum install -y /root/rpmbuild/RPMS/x86_64/ubbd*.rpm
 		;;
 	*)
