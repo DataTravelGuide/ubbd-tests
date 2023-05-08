@@ -1,5 +1,6 @@
 UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
 ubbd_dev: "UBBD_DEV_DEFAULT"
+fio_size: 1G
 ubbd_daemon_timeout: !mux
         1sec:
                 ubbdd_timeout: 1

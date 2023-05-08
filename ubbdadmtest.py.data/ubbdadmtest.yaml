@@ -40,25 +40,15 @@ ubbd_daemon_timeout: !mux
         no_timeout:
                 fail_directly: true
                 ubbdd_timeout: 0
-        tensec:
-                fail_directly: false
-                ubbdd_timeout: 10
         onemin:
                 fail_directly: false
                 ubbdd_timeout: 60
-        tenmin:
-                fail_directly: false
-                ubbdd_timeout: 600
 
 ubbd_dev_timeout: !mux
         no_timeout:
                 ubbd_dev_timeout: 0
-        1msec:
-                ubbd_dev_timeout: 1
         10msec:
                 ubbd_dev_timeout: 10
-        1sec:
-                ubbd_dev_timeout: 1000
 
 ubbd_page_reserve: !mux
         no_reserve:

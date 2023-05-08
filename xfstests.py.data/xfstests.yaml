@@ -10,10 +10,6 @@ ubbdd_timeout: !mux
         30sec:
                 ubbdd_timeout: 30
 fs_type: !mux
-        fs_ext4:
-                fs: 'ext4'
-                # Exclude only if test_range not provided
-                exclude: 'null'
         fs_xfs:
                 fs: 'xfs'
                 # Exclude only if test_range not provided

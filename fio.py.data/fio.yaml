@@ -31,28 +31,14 @@ bs: !mux
                 block_size: "4K"
         8K:
                 block_size: "8K"
-        16K:
-                block_size: "16K"
-        32K:
-                block_size: "32K"
-        64K:
-                block_size: "64K"
-        128K:
-                block_size: "128K"
-        512K:
-                block_size: "512K"
         1M:
                 block_size: "1M"
 
 iodepth: !mux
         1iodepth:
                 iodepth: "1"
-        2iodepth:
-                iodepth: "2"
         4iodepth:
                 iodepth: "4"
-        16iodepth:
-                iodepth: "16"
         32iodepth:
                 iodepth: "32"
         128iodepth:
@@ -60,7 +46,5 @@ iodepth: !mux
 numjobs: !mux
         1numjobs:
                 numjobs: "1"
-        2numjobs:
-                numjobs: "2"
         4numjobs:
                 numjobs: "4"
