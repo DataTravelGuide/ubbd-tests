@@ -1,21 +1,21 @@
 UBBD_DIR: "UBBD_DIR_DEFAULT"
-rbd_args: !mux
-        enable:
-                CONFIG_RBD_ARGS: " --enable-rbd-backend "
-        disable:
-                CONFIG_RBD_ARGS: " --disable-rbd-backend "
 s3_args: !mux
-        enable:
+        s3_enable:
                 CONFIG_S3_ARGS: " --enable-s3-backend "
-        disable:
+        s3_disable:
                 CONFIG_S3_ARGS: " --disable-s3-backend "
 ssh_args: !mux
-        enable:
+        ssh_enable:
                 CONFIG_SSH_ARGS: " --enable-ssh-backend "
-        disable:
+        ssh_disable:
                 CONFIG_SSH_ARGS: " --disable-ssh-backend "
 cache_args: !mux
-        enable:
+        cache_enable:
                 CONFIG_CACHE_ARGS: " --enable-cache-backend "
-        disable:
+        cache_disable:
                 CONFIG_CACHE_ARGS: " --disable-cache-backend "
+rbd_args: !mux
+        rbd_enable:
+                CONFIG_RBD_ARGS: " --enable-rbd-backend "
+        rbd_disable:
+                CONFIG_RBD_ARGS: " --disable-rbd-backend "
