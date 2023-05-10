@@ -62,6 +62,8 @@ setup
 prepare_ubbdd 0
 
 cd ${UBBD_TESTS_DIR}
+replace_option buildtest.py.data/buildtest.yaml  UBBD_DIR_DEFAULT ${UBBD_DIR}
+
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml UBBD_TESTS_DIR_DEFAULT ${UBBD_TESTS_DIR}
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml UBBD_DEV_SIZE_DEFAULT 1048576000
@@ -77,6 +79,8 @@ replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_HOSTNA
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_PORT ${UBBD_S3_PORT}
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_BUCKET_NAME ${UBBD_BUCKET_NAME}
 replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_DEV_SIZE_DEFAULT 31457280
+
+avocado run --nrunner-max-parallel-tasks 1  buildtest.py -m buildtest.py.data/buildtest.yaml
 
 if [ ${DRY_RUN} -eq 0 ]; then
 	avocado run --nrunner-max-parallel-tasks 1  cachebackendtest.py -m cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml
