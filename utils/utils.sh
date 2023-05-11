@@ -81,12 +81,20 @@ setup ()
 	# build and insmod ubbd
 	cd $UBBD_KERNEL_DIR
 	if [ "$1" != "skip-make" ]; then
-		build_and_install_ubbd_kernel
+		if [ $UBBD_TESTS_SETUP_WITHOUT_PKG == "yes" ]; then
+			./build_and_install.sh
+		else
+			build_and_install_ubbd_kernel
+		fi
 	fi
 	sleep 1
 	cd $UBBD_DIR
 	if [ "$1" != "skip-make" ]; then
-		build_and_install_ubbd
+		if [ $UBBD_TESTS_SETUP_WITHOUT_PKG == "yes" ]; then
+			./build_and_install.sh
+		else
+			build_and_install_ubbd
+		fi
 	fi
 	sleep 1
 
@@ -171,6 +179,11 @@ unmap_ubbd_devs ()
 {
 	cd $UBBD_DIR
 	for i in `ls /dev/ubbd[0-9]*`; do
+		id=$(echo "${i}" | sed "s/\/dev\/ubbd//g")
+		unmap_dev $id
+	done
+
+	for i in `ubbdadm list`; do
 		id=$(echo "${i}" | sed "s/\/dev\/ubbd//g")
 		unmap_dev $id
 	done
