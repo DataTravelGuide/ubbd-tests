@@ -125,7 +125,6 @@ setup
 expect_false _sudo rbd device --device-type ubbd map INVALIDIMAGE
 expect_false _sudo ubbdadm map --type rbd --rbd-image INVALIDIMAGE
 
-
 # map test
 DEV=`_sudo rbd device --device-type ubbd map ${POOL}/${IMAGE}`
 
@@ -301,6 +300,11 @@ DEV1=`_sudo rbd device --device-type ubbd map ${POOL}/${IMAGE}`
 DEV_ID1=${DEV1//\/dev\/ubbd/}
 LINK_DEV1=`readlink /dev/ubbd/rbd/${POOL}/${IMAGE}/${DEV_ID1}`
 [ ${DEV1} = ${LINK_DEV1} ]
+
+# list format test
+expect_false rbd device --device-type ubbd --format INVALID list
+rbd device --device-type ubbd --format json --pretty-format list
+rbd device --device-type ubbd --format xml list
 
 unmap_device ${DEV}
 unmap_device ${DEV1}
