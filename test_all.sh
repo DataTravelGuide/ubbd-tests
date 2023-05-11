@@ -205,7 +205,7 @@ if [ ${DRY_RUN} -eq 0 ]; then
 	./all_test${SUFFIX}.py
 fi
 
-if [ $? != 0 ] && [ $1 = "quick" ]; then
+if [ $? != 0 ]; then
 	print_avocado_debug_log
 	exit 1
 fi
