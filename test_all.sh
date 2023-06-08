@@ -82,6 +82,11 @@ replace_option cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml S3_DEV_SI
 
 avocado run --nrunner-max-parallel-tasks 1  buildtest.py -m buildtest.py.data/buildtest.yaml
 
+if [ $? != 0 ]; then
+	print_avocado_debug_log
+	exit 1
+fi
+
 if [ ${DRY_RUN} -eq 0 ]; then
 	avocado run --nrunner-max-parallel-tasks 1  cachebackendtest.py -m cachebackendtest.py.data/cachebackendtest${SUFFIX}.yaml
 fi
