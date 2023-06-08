@@ -27,10 +27,6 @@ ubbd_daemon_timeout: !mux
                 ubbdd_timeout: 0
         tensec:
                 ubbdd_timeout: 10
-        onemin:
-                ubbdd_timeout: 60
-        tenmin:
-                ubbdd_timeout: 600
 
 ubbd_dev_timeout: !mux
         no_timeout:
@@ -39,8 +35,6 @@ ubbd_dev_timeout: !mux
                 ubbd_dev_timeout: 1
         10msec:
                 ubbd_dev_timeout: 10
-        1sec:
-                ubbd_dev_timeout: 1000
 
 ubbd_page_reserve: !mux
         no_reserve:

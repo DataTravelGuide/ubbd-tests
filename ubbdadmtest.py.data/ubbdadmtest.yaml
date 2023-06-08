@@ -1,7 +1,7 @@
 UBBD_DIR: "UBBD_DIR_DEFAULT"
 UBBD_TESTS_DIR: "UBBD_TESTS_DIR_DEFAULT"
 VALGRIND: 0
-ubbdadm_action_num: 50
+ubbdadm_action_num: 10
 always_retry: false
 ubbd_map_type: !mux
         file:

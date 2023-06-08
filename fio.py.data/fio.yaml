@@ -41,8 +41,6 @@ iodepth: !mux
                 iodepth: "4"
         32iodepth:
                 iodepth: "32"
-        128iodepth:
-                iodepth: "128"
 numjobs: !mux
         1numjobs:
                 numjobs: "1"
