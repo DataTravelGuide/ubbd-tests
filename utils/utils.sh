@@ -34,11 +34,11 @@ build_and_install_ubbd_kernel ()
 	source /etc/os-release
 	case "$ID" in
 	debian|ubuntu|devuan|elementary|softiron)
-		apt purge -y ubbd-kernel
-		apt purge -y ubbd-kernel-dbg
+		apt purge -y ubbd-kernel-dkms
+		apt purge -y ubbd-kernel-dkms-dbg
 		rm -rf ../ubbd*.deb
 		bash -x build_deb.sh
-		DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd-kernel_*.deb
+		DEBIAN_FRONTEND=noninteractive apt install -yq ../ubbd-kernel-dkms_*.deb
 		;;
 	rocky|centos|fedora|rhel|ol|virtuozzo)
 		rpm -qa|grep ubbd|gawk '{print "yum erase -y "$1}'|bash
