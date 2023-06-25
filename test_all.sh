@@ -176,6 +176,9 @@ setup
 
 prepare_ubbd_devs
 
+cache_dev_1=`ubbdadm map --type cache --cache-dev-type file --cache-dev-file-filepath ${UBBD_TESTS_CACHE_FILE_1} --backing-dev-type file --backing-dev-file-filepath ${UBBD_TESTS_BACKING_FILE_1}  --cache-mode writeback`
+cache_dev_2=`ubbdadm map --type cache --cache-dev-type file --cache-dev-file-filepath ${UBBD_TESTS_CACHE_FILE_2} --backing-dev-type file --backing-dev-file-filepath ${UBBD_TESTS_BACKING_FILE_2}  --cache-mode writeback`
+
 # replace default options with the real options
 cd ${UBBD_TESTS_DIR}
 replace_option ubbdadmtest.py.data/ubbdadmtest_fault_inject${SUFFIX}.yaml UBBD_DIR_DEFAULT ${UBBD_DIR}
@@ -198,6 +201,8 @@ replace_option xfstests.py.data/xfstests${SUFFIX}.yaml TEST_FILE_DEV_DEFAULT /de
 replace_option xfstests.py.data/xfstests${SUFFIX}.yaml SCRATCH_FILE_DEV_DEFAULT /dev/ubbd1
 replace_option xfstests.py.data/xfstests${SUFFIX}.yaml TEST_MEM_DEV_DEFAULT /dev/ubbd3
 replace_option xfstests.py.data/xfstests${SUFFIX}.yaml SCRATCH_MEM_DEV_DEFAULT /dev/ubbd4
+replace_option xfstests.py.data/xfstests${SUFFIX}.yaml TEST_CACHE_DEV_DEFAULT	${cache_dev_1}
+replace_option xfstests.py.data/xfstests${SUFFIX}.yaml SCRATCH_CACHE_DEV_DEFAULT ${cache_dev_2}
 
 
 replace_option fio.py.data/fio${SUFFIX}.yaml UBBD_DEV_PATH /dev/ubbd2

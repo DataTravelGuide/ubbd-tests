@@ -19,3 +19,7 @@ disk_type: !mux
                 disk_type: "file"
                 disk_test: 'TEST_FILE_DEV_DEFAULT'
                 disk_scratch: 'SCRATCH_FILE_DEV_DEFAULT'
+        cache:
+                disk_type: "cache"
+                disk_test: 'TEST_CACHE_DEV_DEFAULT'
+                disk_scratch: 'SCRATCH_CACHE_DEV_DEFAULT'
