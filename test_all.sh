@@ -168,9 +168,9 @@ cleanup
 # 3. start other tests without memleak
 
 cd ${UBBD_DIR}
-if [ "$1" != "quick" ]; then
-	replace_option $UBBD_KERNEL_DIR/src/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
-fi
+#if [ "$1" != "quick" ]; then
+	#replace_option $UBBD_KERNEL_DIR/src/ubbd_internal.h "\#undef UBBD_FAULT_INJECT" "\#define UBBD_FAULT_INJECT"
+#fi
 
 setup
 
