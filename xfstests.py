@@ -141,10 +141,6 @@ class Xfstests(Test):
 
         process.system('wipefs -a %s' % (self.test_dev),
                        sudo=True, ignore_status=True)
-        if os.path.exists(self.scratch_mnt):
-            shutil.rmtree(self.scratch_mnt)
-        if os.path.exists(self.test_mnt):
-            shutil.rmtree(self.test_mnt)
         self.whiteboard = process.system_output("dmesg").decode()
 
     @staticmethod
