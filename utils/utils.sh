@@ -139,7 +139,7 @@ map_dev ()
 	opts=$3
 
 	while true; do
-		ubbdadm map --type $type --devsize $devsize $opts
+		ubbdadm map --type $type --devsize $devsize $opts --num-queues 32
 		if [ $? -eq 0 ]; then
 			break
 		fi
