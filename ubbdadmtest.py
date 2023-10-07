@@ -144,7 +144,7 @@ class Ubbdadmtest(Test):
             if self.always_retry:
                 return False
             if self.fail_directly or (result.exit_status not in self.ignore_exit_status):
-                self.fail("start device failed")
+                self.fail("start device failed, result: %s" % result)
             return False
 
         self.log.info("map result: %s" % (result))
