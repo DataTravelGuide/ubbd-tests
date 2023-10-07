@@ -1,6 +1,9 @@
 #!/bin/bash
 set -x
 
+# setup env
+echo 1024000 > /proc/sys/fs/aio-max-nr 
+
 date_str=`date "+%Y_%m_%d_%H_%M_%S"`
 
 DRY_RUN=0
