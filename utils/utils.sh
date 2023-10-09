@@ -209,6 +209,9 @@ cleanup ()
 	sleep 3
 	kill_ubbdd
 
+	umount /mnt
+	umount /media
+
 	rmmod ubbd
 	rmmod brd
 }
