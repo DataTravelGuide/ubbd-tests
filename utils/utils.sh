@@ -3,19 +3,7 @@
 
 print_avocado_debug_log ()
 {
-	files=`ls /root/avocado/job-results/latest/test-results/*/debug.log`
-	for file in $files; do
-		echo $file
-		cat $file
-	done
-
-	files=`ls /var/log/ubbd/*`
-	for file in $files; do
-		echo $file
-		cat $file
-	done
-
-	dmesg
+	echo "dont print too much debug messages."
 }
 
 wait_for_ubbdd ()
